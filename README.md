@@ -66,8 +66,8 @@ docker-compose up -d --build
 
 NOTE:
 
-1. If you regenerate the output directory then you will need to rebuild the docker images.
-2. Please polkadot/apps to connect the relay/parachain chain.
+1. If you regenerate the output directory, you will need to rebuild the docker images.
+2. Please use Polkadot/apps to connect the relay/parachain chain.
 
 # Additional Docker Commands
 

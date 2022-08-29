@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v0.9.16 # the docker image to use
+  image: parity/polkadot:v0.9.26 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -26,32 +26,29 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: acala/karura-node:2.3.1
+- image: peaqtest:latest
   chain: # this could be a string like `dev` or a config object
-    base: karura-dev # the chain to use
+    base: dev # the chain to use
     collators: # override collators
       - alice # this imply //Alice
-      - 5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty # or could be a session key public address
-      - charlie
+      - bob # this imply //Bob
+      - charlie # this imply //Charlie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
         balances:
-          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 10000000000000000]
-      tokens:
-        balances:
-          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, { token: 'KUSD' }, 10000000000000000]
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 10000000000000000]
   id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
-    - --force-authoring
+    # - --force-authoring
     - --execution=wasm
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
-  volumePath: /acala/data # The path to mount volume and base path, default to /data
+  volumePath: /data # The path to mount volume and base path, default to /data
   nodes: # nodes config
   - wsPort: 9947
     rpcPort: 9936

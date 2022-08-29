@@ -352,7 +352,12 @@ const generateParachainGenesisFile = (
 
   if (chain.collators) {
     const invulnerables = chain.collators.map(getAddress);
-    setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });
+    setParachainRuntimeValue(runtime, 'parachainStaking', {
+      stakers: chain.collators.map((x) => {
+        const addr = getAddress(x);
+        return [addr, null, 64000];
+      }),
+    });
     setParachainRuntimeValue(runtime, 'session', {
       keys: chain.collators.map((x) => {
         const addr = getAddress(x);

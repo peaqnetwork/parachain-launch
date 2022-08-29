@@ -2,11 +2,10 @@
 
 - [Introduction](#introduction)
 - [Options](#options)
-- [Global Usage](#global-usage)
+- [Preparation](#preparation)
 - [Local Usage](#local-usage)
 - [Start relaychain and parachain](#start-relaychain-and-parachain)
 - [Additional Docker Commands](#additional-docker-commands)
-- [Resetting all data](#resetting-all-data)
 
 # Introduction
 
@@ -22,38 +21,35 @@ The following options are supported by the generate script.
 | --output      | Path to output dir.        | No                 | ./output     |
 | --yes         | Overwrite generated files? | No                 | false        |
 
-# Global Usage
+# Preparation
 
-1. Install the package globally:
+1. Download the [peaq-network-node](https://github.com/peaqnetwork/peaq-network-node)
 
+2. Build the docker images
 ```sh
-yarn global add @open-web3/parachain-launch
+docker build -f scripts/peaq.Dockerfile -t peaqtest .
 ```
-
-2. Download the [example config](https://github.com/open-web3-stack/parachain-launch/blob/master/config.yml) file and edit as necessary.
-
-3. Run the generate script:
-
-```sh
-parachain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
-```
-
-This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.
 
 # Local Usage
 
-1. Install the package locally:
+1. Install dependency:
 
 ```sh
-yarn add @open-web3/parachain-launch
+yarn install
 ```
 
-2. Download the [example config](https://github.com/open-web3-stack/parachain-launch/blob/master/config.yml) file and edit as necessary.
-
-3. Run the service from within the local directory:
+2. Build project
 
 ```sh
-node_modules/.bin/parahain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
+yarn build
+```
+
+3. Use the `config.yml` file and edit as necessary.
+
+4. Run the service from within the local directory:
+
+```sh
+./bin/parachain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
 ```
 
 This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.
@@ -68,7 +64,10 @@ cd ./output # OR custom output directory
 docker-compose up -d --build
 ```
 
-NOTE: If you regenerate the output directory then you will need to rebuild the docker images.
+NOTE:
+
+1. If you regenerate the output directory, you will need to rebuild the docker images.
+2. Please use Polkadot/apps to connect the relay/parachain chain.
 
 # Additional Docker Commands
 

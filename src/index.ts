@@ -533,6 +533,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
             ? `--node-key=${nodeKey}`
             : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/30333/p2p/${nodeAddress}`,
           '--listen-addr=/ip4/0.0.0.0/tcp/30333',
+          `--parachain-id=${parachain.id}`,
           '--',
           `--chain=/app/${config.relaychain.chain}.json`,
           ...(parachain.relaychainFlags || []),

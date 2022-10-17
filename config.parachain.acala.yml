@@ -1,0 +1,98 @@
+# Relaychain Configuration
+relaychain:
+  image: parity/polkadot:v0.9.27 # the docker image to use
+  chain: rococo-local # the chain to use
+  runtimeGenesisConfig: # additonal genesis override
+    configuration:
+      config:
+        validation_upgrade_cooldown: 10
+        validation_upgrade_delay: 10
+    hrmp:
+      preopenHrmpChannels:
+        - sender: 3000
+          recipient: 2000
+          maxCapacity: 8
+          maxMessageSize: 102400
+        - sender: 2000
+          recipient: 3000
+          maxCapacity: 8
+          maxMessageSize: 102400
+  env: # environment variables for all relaychain nodes
+    RUST_LOG: parachain::candidate-backing=trace,xcm=trace
+  flags: # additional CLI flags for all relaychain nodes
+    - --rpc-methods=unsafe
+  nodes: # nodes config
+    - name: alice # the node name and session key, this imply `--alice`
+      wsPort: 9944 # default ws port number is `9944 + global_node_index`
+      rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
+      port: 30333 # default libp2p port number is `30333 + global_node_index`
+      flags: # additional CLI flags for this node
+        - --force-authoring
+      env:
+        RUST_LOG: xcm=trace # environment varitables for this node
+    - name: bob
+    - name: charlie
+
+# Parachain Configuration
+parachains:
+# Config for first parachain
+- image: peaqtest:latest
+  chain: # this could be a string like `dev` or a config object
+    base: dev # the chain to use
+    collators: # override collators
+      - alice # this imply //Alice
+    sudo: alice # override sudo key to //Alice
+    runtimeGenesisConfig: # additonal genesis override
+      balances:
+        balances:
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 10000000000000000]
+  id: 2000 # override parachain id
+  parachain: true # this is parachain, not parathread
+  flags: # CLI flags for this parachain nodes
+    - --rpc-methods=unsafe
+    # - --force-authoring
+    - --execution=wasm
+  relaychainFlags: # CLI flags for the relaychain port
+    - --execution=wasm
+  env: # environment variables for this parachain nodes
+    RUST_LOG: sc_basic_authorship=trace
+  volumePath: /data # The path to mount volume and base path, default to /data
+  nodes: # nodes config
+    - name: alice # the node name and session key, this imply `--alice`
+      wsPort: 9947 # default ws port number is `9944 + global_node_index`
+      rpcPort: 9936 # default rpc port number is `9933 + global_node_index`
+      port: 31333 # default libp2p port number is `30333 + global_node_index`
+      flags: # additional CLI flags for this node
+        - --force-authoring
+        - --alice
+      env:
+        RUST_LOG: xcm=trace # environment varitables for this node
+- image: acala/acala-node:2.5.0
+  chain:
+    base: acala-dev
+    collators:
+      - bob
+    sudo: bob
+  id: 3000
+  parachain: true
+  flags:
+    - --rpc-methods=unsafe
+    - --force-authoring
+    - --wasm-execution=compiled
+    - --execution=wasm
+  relaychainFlags:
+    - --wasm-execution=compiled
+    - --execution=wasm
+  env:
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
+  # Acala's path should be under the acala/data
+  volumePath: /acala/data
+  nodes: # nodes config
+    - name: bob # the node name and session key, this imply `--alice`
+      wsPort: 10047 # default ws port number is `9944 + global_node_index`
+      rpcPort: 10036 # default rpc port number is `9933 + global_node_index`
+      port: 32333 # default libp2p port number is `30333 + global_node_index`
+      flags:
+        - --bob
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-bob

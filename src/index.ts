@@ -519,7 +519,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
 
     for (const parachainNode of parachain.nodes) {
       const name = `parachain-${parachain.id}-${nodeIdx}`;
-      const parchain_id_args = parachain.image.includes('peaq')
+      const parchainIdArgs = parachain.image.includes('peaq')
         ? [`--parachain-id=${parachain.id}`]
         : [];
       const nodeConfig: DockerNode = {
@@ -547,7 +547,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
             ? `--node-key=${nodeKey}`
             : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/30333/p2p/${nodeAddress}`,
           '--listen-addr=/ip4/0.0.0.0/tcp/30333',
-           ...(parchain_id_args || []),
+          ...(parchainIdArgs || []),
           '--',
           `--chain=/app/${config.relaychain.chain}.json`,
           ...(parachain.relaychainFlags || []),

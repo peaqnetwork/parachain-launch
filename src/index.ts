@@ -519,9 +519,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
 
     for (const parachainNode of parachain.nodes) {
       const name = `parachain-${parachain.id}-${nodeIdx}`;
-      const parchainIdArgs = parachain.image.includes('peaq')
-        ? [`--parachain-id=${parachain.id}`]
-        : [];
+      const parchainIdArgs = parachain.image.includes('peaq') ? [`--parachain-id=${parachain.id}`] : [];
       const nodeConfig: DockerNode = {
         ports: [
           `${parachainNode.wsPort || 9944 + idx}:9944`,

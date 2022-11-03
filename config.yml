@@ -26,13 +26,12 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaqtest:latest
+- image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
     base: dev # the chain to use
     collators: # override collators
       - alice # this imply //Alice
       - bob # this imply //Bob
-      - charlie # this imply //Charlie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -61,5 +60,3 @@ parachains:
       RUST_LOG: aura=debug # environment varitables for this node
   - flags:
     - --bob
-  - flags:
-    - --charlie

@@ -26,7 +26,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaqtest:latest
+- image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
     base: dev # the chain to use
     collators: # override collators
@@ -58,7 +58,7 @@ parachains:
     env:
       RUST_LOG: aura=debug # environment varitables for this node
 # Config for first parachain
-- image: peaqtest:latest
+- image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
     base: dev # the chain to use
     collators: # override collators

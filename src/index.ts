@@ -351,20 +351,32 @@ const generateParachainGenesisFile = (
   }
 
   if (chain.collators) {
-    const invulnerables = chain.collators.map(getAddress);
-    setParachainRuntimeValue(runtime, 'parachainStaking', {
-      stakers: chain.collators.map((x) => {
-        const addr = getAddress(x);
-        return [addr, null, 64000];
-      }),
-    });
-    setParachainRuntimeValue(runtime, 'session', {
-      keys: chain.collators.map((x) => {
-        const addr = getAddress(x);
-        return [addr, addr, { aura: addr }];
-      }),
-    });
-    endowed.push(...invulnerables);
+    if (image.includes('peaq')) {
+      const invulnerables = chain.collators.map(getAddress);
+      setParachainRuntimeValue(runtime, 'parachainStaking', {
+        stakers: chain.collators.map((x) => {
+          const addr = getAddress(x);
+          return [addr, null, 64000];
+        }),
+      });
+      setParachainRuntimeValue(runtime, 'session', {
+        keys: chain.collators.map((x) => {
+          const addr = getAddress(x);
+          return [addr, addr, { aura: addr }];
+        }),
+      });
+      endowed.push(...invulnerables);
+    } else {
+      const invulnerables = chain.collators.map(getAddress);
+      setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });
+      setParachainRuntimeValue(runtime, 'session', {
+        keys: chain.collators.map((x) => {
+          const addr = getAddress(x);
+          return [addr, addr, { aura: addr }];
+        }),
+      });
+      endowed.push(...invulnerables);
+    }
   }
 
   if (endowed.length) {
@@ -507,7 +519,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
 
     for (const parachainNode of parachain.nodes) {
       const name = `parachain-${parachain.id}-${nodeIdx}`;
-
+      const parchainIdArgs = parachain.image.includes('peaq') ? [`--parachain-id=${parachain.id}`] : [];
       const nodeConfig: DockerNode = {
         ports: [
           `${parachainNode.wsPort || 9944 + idx}:9944`,
@@ -533,6 +545,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
             ? `--node-key=${nodeKey}`
             : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/30333/p2p/${nodeAddress}`,
           '--listen-addr=/ip4/0.0.0.0/tcp/30333',
+          ...(parchainIdArgs || []),
           '--',
           `--chain=/app/${config.relaychain.chain}.json`,
           ...(parachain.relaychainFlags || []),

@@ -27,7 +27,7 @@ The following options are supported by the generate script.
 
 2. Build the docker images
 ```sh
-docker build -f scripts/peaq.Dockerfile -t peaqtest .
+docker build -f scripts/Dockerfile.parachain-launch -t peaqtest .
 ```
 
 # Local Usage

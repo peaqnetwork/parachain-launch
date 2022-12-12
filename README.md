@@ -24,10 +24,12 @@ The following options are supported by the generate script.
 # Preparation
 
 1. Download the [peaq-network-node](https://github.com/peaqnetwork/peaq-network-node)
-
-2. Build the docker images
+2. Checkout to the parchain_dev branch in the peaq-network-node
+3. Follow the [peaq-node-builder](https://github.com/peaqnetwork/peaq-node-builder) to build the peaq-node's binary
+4. Build the docker images on the peaq-network-node folder.
 ```sh
-docker build -f scripts/Dockerfile.parachain-launch -t peaqtest .
+cd ../peaq-network-node
+docker build -f scripts/Dockerfile.parachain-launch -t peaq_para_node .
 ```
 
 # Local Usage
@@ -50,6 +52,10 @@ yarn build
 
 ```sh
 ./bin/parachain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
+```
+
+```sh
+./bin/parachain-launch generate --config=config.yml --output=yoyo
 ```
 
 This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.

@@ -67,7 +67,7 @@ To start the nodes, navigate to the output folder that you generated the scripts
 ```sh
 cd ./output # OR custom output directory
 
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 NOTE:
@@ -92,17 +92,17 @@ docker logs -f [container_id/container_name]
 Stop all of the containers:
 
 ```sh
-docker-compose stop
+docker compose stop
 ```
 
 Remove all of the containers:
 
 ```sh
-docker-compose rm
+docker compose rm
 ```
 
 Remove all of the containers and volumes (This will wipe any existing chain data):
 
 ```sh
-docker-compose down -v
+docker compose down -v
 ```

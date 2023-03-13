@@ -28,7 +28,7 @@ parachains:
 # Config for first parachain
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
-    base: dev # the chain to use
+    base: dev-local # the chain to use
     collators: # override collators
       - alice # this imply //Alice
       - bob # this imply //Bob

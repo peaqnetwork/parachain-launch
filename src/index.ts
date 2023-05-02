@@ -372,12 +372,12 @@ const generateParachainGenesisFile = (
 
   if (chain.collators) {
     if (image.includes('peaq')) {
-      const chain_base = chain.base;
+      const chainBase = chain.base;
       const invulnerables = chain.collators.map(getAddress);
       setParachainRuntimeValue(runtime, 'parachainStaking', {
         stakers: chain.collators.map((x) => {
           const addr = getAddress(x);
-          return [addr, null, generateCollatorStake(chain_base)];
+          return [addr, null, generateCollatorStake(chainBase)];
         }),
       });
       setParachainRuntimeValue(runtime, 'session', {

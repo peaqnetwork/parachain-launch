@@ -294,6 +294,26 @@ const getChainspecName = (chain: Chain | string, id: number) => {
 };
 
 /**
+ * Calculate Collator's Stake
+ *
+ * @param chain
+ */
+const generateCollatorStake = (chain: string) => {
+  console.log(chain);
+  if (chain === 'peaq-dev-local') {
+    return 64000;
+  } else if (chain === 'agung-local') {
+    return 64000;
+  } else if (chain === 'krest-local') {
+    return 2 * 1000 * 1000000000000000000;
+  } else if (chain === 'peaq-local') {
+    return 64000;
+  } else {
+    throw new Error(`Unknown base chain ${chain}`);
+  }
+};
+
+/**
  * Generate parachain genesis file
  *
  * @param id
@@ -352,11 +372,12 @@ const generateParachainGenesisFile = (
 
   if (chain.collators) {
     if (image.includes('peaq')) {
+      const chain_base = chain.base;
       const invulnerables = chain.collators.map(getAddress);
       setParachainRuntimeValue(runtime, 'parachainStaking', {
         stakers: chain.collators.map((x) => {
           const addr = getAddress(x);
-          return [addr, null, 64000];
+          return [addr, null, generateCollatorStake(chain_base)];
         }),
       });
       setParachainRuntimeValue(runtime, 'session', {

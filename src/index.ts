@@ -300,7 +300,7 @@ const getChainspecName = (chain: Chain | string, id: number) => {
  */
 const generateCollatorStake = (chain: string) => {
   console.log(chain);
-  if (chain === 'peaq-dev-local') {
+  if (chain === 'dev-local') {
     return 64000;
   } else if (chain === 'agung-local') {
     return 64000;

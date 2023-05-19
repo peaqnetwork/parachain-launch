@@ -24,7 +24,7 @@ The following options are supported by the generate script.
 # Preparation
 
 1. Download the [peaq-network-node](https://github.com/peaqnetwork/peaq-network-node)
-2. Checkout to the parchain_dev branch in the peaq-network-node
+2. Checkout to the `parachain_dev` branch in the peaq-network-node
 3. Follow the [peaq-node-builder](https://github.com/peaqnetwork/peaq-node-builder) to build the peaq-node's binary
 4. Build the docker images on the peaq-network-node folder.
 ```sh

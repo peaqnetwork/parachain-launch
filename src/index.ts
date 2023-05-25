@@ -402,7 +402,6 @@ const generateParachainGenesisFile = (
         }),
       });
       endowed.push(...invulnerables);
-
     } else {
       const invulnerables = chain.collators.map(getAddress);
       setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });

@@ -388,7 +388,6 @@ const generateParachainGenesisFile = (
       });
       endowed.push(...invulnerables);
     } else if (image.includes('bifrost')) {
-      const chainBase = chain.base;
       const invulnerables = chain.collators.map(getAddress);
       setParachainRuntimeValue(runtime, 'parachainStaking', {
         candidates: chain.collators.map((x) => {

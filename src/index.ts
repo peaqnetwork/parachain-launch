@@ -309,7 +309,7 @@ const generateCollatorStake = (chain: string) => {
   } else if (chain === 'peaq-local') {
     return 64000;
   } else {
-    throw new Error(`Unknown base chain ${chain}`);
+    return 64000;
   }
 };
 
@@ -378,6 +378,21 @@ const generateParachainGenesisFile = (
         stakers: chain.collators.map((x) => {
           const addr = getAddress(x);
           return [addr, null, generateCollatorStake(chainBase)];
+        }),
+      });
+      setParachainRuntimeValue(runtime, 'session', {
+        keys: chain.collators.map((x) => {
+          const addr = getAddress(x);
+          return [addr, addr, { aura: addr }];
+        }),
+      });
+      endowed.push(...invulnerables);
+    } else if (image.includes('bifrost')) {
+      const invulnerables = chain.collators.map(getAddress);
+      setParachainRuntimeValue(runtime, 'parachainStaking', {
+        candidates: chain.collators.map((x) => {
+          const addr = getAddress(x);
+          return [addr, 250000000000000000];
         }),
       });
       setParachainRuntimeValue(runtime, 'session', {

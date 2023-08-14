@@ -305,7 +305,7 @@ const generateCollatorStake = (chain: string) => {
   } else if (chain === 'agung-local') {
     return 64000;
   } else if (chain === 'krest-local') {
-    return 2 * 10000 * 1000000000000000000;
+    return 2 * 100000 * 1000000000000000000;
   } else if (chain === 'peaq-local') {
     return 64000;
   } else {

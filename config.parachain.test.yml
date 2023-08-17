@@ -7,8 +7,18 @@ relaychain:
       config:
         validation_upgrade_cooldown: 10
         validation_upgrade_delay: 10
+    hrmp:
+      preopenHrmpChannels:
+        - sender: 3002
+          recipient: 3001
+          maxCapacity: 8
+          maxMessageSize: 102400
+        - sender: 3001
+          recipient: 3002
+          maxCapacity: 8
+          maxMessageSize: 102400
   env: # environment variables for all relaychain nodes
-    RUST_LOG: parachain::candidate-backing=trace
+    RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
   nodes: # nodes config
@@ -19,8 +29,9 @@ relaychain:
       flags: # additional CLI flags for this node
         - --force-authoring
       env:
-        RUST_LOG: babe=debug # environment varitables for this node
+        RUST_LOG: babe=debug xcm=trace # environment varitables for this node
     - name: bob
+    - name: charlie
 
 # Parachain Configuration
 parachains:
@@ -41,7 +52,6 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-
   id: 3001 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
@@ -65,3 +75,35 @@ parachains:
       - --name=relaychain-ferdie
     env:
       RUST_LOG: aura=debug # environment varitables for this node
+
+- image: bifrostnetwork/bifrost:latest
+  chain: # this could be a string like `dev` or a config object
+    base: bifrost-local # the chain to use
+    collators: # override collators
+      - alice # this imply //Alice
+      - charlie
+    sudo: alice # override sudo key to //Alice
+  id: 3002 # override parachain id
+  parachain: true # this is parachain, not parathread
+  flags: # CLI flags for this parachain nodes
+    - --rpc-methods=unsafe
+    - --force-authoring
+    - --execution=wasm
+  relaychainFlags: # CLI flags for the relaychain port
+    - --execution=wasm
+  env: # environment variables for this parachain nodes
+    RUST_LOG: sc_basic_authorship=trace
+  nodes: # nodes config
+    - wsPort: 10047
+      rpcPort: 10036
+      port: 40336
+      flags: # additional CLI flags for this node
+        - --alice
+      relaychainFlags: # additional CLI flags for relaychian part
+        - --name=relaychain-alice
+      env:
+        RUST_LOG: debug # environment varitables for this node
+    - flags:
+        - --bob
+    - flags:
+        - --charlie

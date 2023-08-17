@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v0.9.38 # the docker image to use
+  image: parity/polkadot:v0.9.42 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -41,6 +41,7 @@ parachains:
     base: dev-local # the chain to use
     collators: # override collators
       - alice # this imply //Alice
+      - bob
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -67,6 +68,7 @@ parachains:
         - --alice
       env:
         RUST_LOG: xcm=trace # environment varitables for this node
+
 - image: bifrostnetwork/bifrost:latest
   chain: # this could be a string like `dev` or a config object
     base: bifrost-local # the chain to use

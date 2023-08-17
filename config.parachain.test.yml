@@ -9,12 +9,12 @@ relaychain:
         validation_upgrade_delay: 10
     hrmp:
       preopenHrmpChannels:
-        - sender: 3002
-          recipient: 3001
+        - sender: 3000
+          recipient: 2000
           maxCapacity: 8
           maxMessageSize: 102400
-        - sender: 3001
-          recipient: 3002
+        - sender: 2000
+          recipient: 3000
           maxCapacity: 8
           maxMessageSize: 102400
   env: # environment variables for all relaychain nodes
@@ -28,8 +28,6 @@ relaychain:
       port: 30333 # default libp2p port number is `30333 + global_node_index`
       flags: # additional CLI flags for this node
         - --force-authoring
-      env:
-        RUST_LOG: babe=debug xcm=trace # environment varitables for this node
     - name: bob
     - name: charlie
 
@@ -41,7 +39,8 @@ parachains:
     base: dev-local # the chain to use
     chainType: Development
     collators: # override collators
-      - ferdie
+      - alice # this imply //Alice
+      - bob
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -52,7 +51,7 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 3001 # override parachain id
+  id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
@@ -65,16 +64,15 @@ parachains:
     RUST_LOG: sc_basic_authorship=trace
   volumePath: /data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-  - name: ferdie
-    wsPort: 9947
-    rpcPort: 9936
-    port: 30336
-    flags: # additional CLI flags for this node
-      - --ferdie
-    relaychainFlags: # additional CLI flags for relaychain part
-      - --name=relaychain-ferdie
-    env:
-      RUST_LOG: aura=debug # environment varitables for this node
+    - name: alice
+      wsPort: 9947
+      rpcPort: 9936
+      port: 31333
+      flags: # additional CLI flags for this node
+        # - --force-authoring
+        - --alice
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-ferdie
 
 - image: bifrostnetwork/bifrost:latest
   chain: # this could be a string like `dev` or a config object
@@ -83,7 +81,7 @@ parachains:
       - alice # this imply //Alice
       - charlie
     sudo: alice # override sudo key to //Alice
-  id: 3002 # override parachain id
+  id: 3000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe

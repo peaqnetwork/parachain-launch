@@ -39,8 +39,7 @@ parachains:
     base: dev-local # the chain to use
     chainType: Development
     collators: # override collators
-      - alice # this imply //Alice
-      - bob
+      - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:

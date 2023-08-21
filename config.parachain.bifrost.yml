@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v0.9.38 # the docker image to use
+  image: parity/polkadot:v0.9.42 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -28,8 +28,6 @@ relaychain:
       port: 30333 # default libp2p port number is `30333 + global_node_index`
       flags: # additional CLI flags for this node
         - --force-authoring
-      env:
-        RUST_LOG: xcm=trace # environment varitables for this node
     - name: bob
     - name: charlie
 
@@ -39,19 +37,26 @@ parachains:
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
+    chainType: Development
     collators: # override collators
-      - alice # this imply //Alice
+      - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
         balances:
-          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 10000000000000000]
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
+          - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
+          - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
+          - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
+          - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
   id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
     # - --force-authoring
     - --execution=wasm
+    - --state-pruning=archive
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
@@ -63,10 +68,11 @@ parachains:
       rpcPort: 9936 # default rpc port number is `9933 + global_node_index`
       port: 31333 # default libp2p port number is `30333 + global_node_index`
       flags: # additional CLI flags for this node
-        - --force-authoring
+        # - --force-authoring
         - --alice
-      env:
-        RUST_LOG: xcm=trace # environment varitables for this node
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-ferdie
+
 - image: bifrostnetwork/bifrost:latest
   chain: # this could be a string like `dev` or a config object
     base: bifrost-local # the chain to use

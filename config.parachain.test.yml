@@ -54,7 +54,7 @@ parachains:
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
-    # - --force-authoring
+    - --force-authoring
     - --execution=wasm
     - --state-pruning=archive
   relaychainFlags: # CLI flags for the relaychain port
@@ -63,22 +63,20 @@ parachains:
     RUST_LOG: sc_basic_authorship=trace
   volumePath: /data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - name: alice
-      wsPort: 9947
-      rpcPort: 9936
-      port: 31333
+    - name: ferdie
+      wsPort: 10044
+      rpcPort: 10033
+      port: 30433
       flags: # additional CLI flags for this node
-        # - --force-authoring
-        - --alice
+        - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
-        - --name=relaychain-ferdie
+        - --name=relaychain-alice
 
 - image: bifrostnetwork/bifrost:latest
   chain: # this could be a string like `dev` or a config object
     base: bifrost-local # the chain to use
     collators: # override collators
-      - alice # this imply //Alice
-      - charlie
+      - alice
     sudo: alice # override sudo key to //Alice
   id: 3000 # override parachain id
   parachain: true # this is parachain, not parathread
@@ -91,16 +89,10 @@ parachains:
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
   nodes: # nodes config
-    - wsPort: 10047
-      rpcPort: 10036
-      port: 40336
+    - wsPort: 10144
+      rpcPort: 10133
+      port: 30533
       flags: # additional CLI flags for this node
         - --alice
       relaychainFlags: # additional CLI flags for relaychian part
-        - --name=relaychain-alice
-      env:
-        RUST_LOG: debug # environment varitables for this node
-    - flags:
-        - --bob
-    - flags:
-        - --charlie
+        - --name=relaychain-bob

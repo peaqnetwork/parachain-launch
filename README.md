@@ -106,3 +106,10 @@ Remove all of the containers and volumes (This will wipe any existing chain data
 ```sh
 docker compose down -v
 ```
+
+## How to run the forked chain
+1. Use `git submodule update --init --recursive` to download the fork-off-substrate
+2. Go to the fork-off-substrate to install the library by `cd fork-off-substrate; npm install`
+3. Setup all parameter needed in `forked.generated.sh`
+4. Copy the peaq-node bianry to your FORK_FOLDER
+5. Execute the scripts `sh forked.generated.sh`, it'll launch the forked parchain automatically

@@ -1,0 +1,3 @@
+[submodule "fork-off-substrate"]
+	path = fork-off-substrate
+	url = https://github.com/peaqnetwork/fork-off-substrate

@@ -217,14 +217,16 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
     runtime.paras.paras.push(para);
   }
 
-  const tmpfile = `${shell.tempdir()}/${config.relaychain.chain}.json`;
+  // Avoid the /tmp device doesnt exist error
+  const cwd = process.cwd();
+  const tmpfile = `${cwd}/${path}.original.json`;
   fs.writeFileSync(tmpfile, jsonStringify(spec));
 
   exec(
     `docker run --rm -v "${tmpfile}":/${config.relaychain.chain}.json ${config.relaychain.image} build-spec --raw --chain=/${config.relaychain.chain}.json --disable-default-bootnode > ${path}`
   );
-
-  shell.rm(tmpfile);
+  // Dont remove because in forked parachain, we have to rewrite the genesis block into the relay chain's chainspec
+  // shell.rm(tmpfile);
 
   console.log('Relaychain genesis generated at', path);
 };

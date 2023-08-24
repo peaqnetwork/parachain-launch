@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Parachin chains configurataion files
-FORKED_CONFIG_FILE="config.parachain.agung.forked.yml"
-RPC_ENDPOINT="https://rpcpc1-qa.agung.peaq.network"
-DOCKER_COMPOSE_FOLDER="yoyo"
-FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v06042023"
+FORKED_CONFIG_FILE=${FORKED_CONFIG_FILE:-"config.parachain.agung.forked.yml"}
+RPC_ENDPOINT=${RPC_ENDPOINT:-"https://rpcpc1-qa.agung.peaq.network"}
+DOCKER_COMPOSE_FOLDER=${DOCKER_COMPOSE_FOLDER:-"yoyo"}
+FORK_FOLDER="${FORK_FOLDER}"
 
 real_path=$(realpath "$DOCKER_COMPOSE_FOLDER")
 if [ "$real_path" = "/" ]; then
@@ -27,7 +27,7 @@ else
 fi
 
 # Stop the docker-compose and regenerate
-(cd ${DOCKER_COMPOSE_FOLDER}; ${docker_compose_cmd} down -v)
+(cd ${DOCKER_COMPOSE_FOLDER}; ${docker_compose_cmd} down -v) || true
 rm -rf ${DOCKER_COMPOSE_FOLDER} || true
 (./bin/parachain-launch generate --config="${FORKED_CONFIG_FILE}" --output=${DOCKER_COMPOSE_FOLDER})
 
@@ -39,7 +39,7 @@ cp ${DOCKER_COMPOSE_FOLDER}/$now_parachain_file_name $FORK_FOLDER/parachain.plai
 ( \
  cd fork-off-substrate; \
  env ALICE=1 \
- SOURCE_FOLDER=${FORK_FOLDER} \
+ SOURCE_PATH=${FORK_FOLDER} \
  RPC_ENDPOINT=${RPC_ENDPOINT}\
  sh forked.generated.sh; \
 )

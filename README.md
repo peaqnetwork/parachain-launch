@@ -113,3 +113,10 @@ docker compose down -v
 3. Setup all parameter needed in `forked.generated.sh`
 4. Copy the peaq-node bianry to your FORK_FOLDER
 5. Execute the scripts `sh forked.generated.sh`, it'll launch the forked parchain automatically
+However, please double-check the log carefully
+```
+FORKED_CONFIG_FILE="config.parachain.agung.forked.yml" \
+RPC_ENDPOINT="https://rpcpc1-qa.agung.peaq.network" \
+DOCKER_COMPOSE_FOLDER="yoyo" \
+FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v06042023" \
+sh -e -x forked.generated.sh

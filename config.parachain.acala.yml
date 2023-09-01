@@ -56,7 +56,7 @@ parachains:
     - --execution=wasm
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
-  volumePath: /data # The path to mount volume and base path, default to /data
+  volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 9947 # default ws port number is `9944 + global_node_index`

@@ -112,6 +112,10 @@ docker compose down -v
 2. Go to the fork-off-substrate to install the library by `cd fork-off-substrate; npm install`
 3. Setup all parameter needed in `forked.generated.sh`
 4. Copy the peaq-node bianry to your FORK_FOLDER
+If your want to forked the parachain which ran the runtime upgraded already, please remember to use the correct binary
+and docker image which are the same as the runtime upgrade.
+For example, our Krest network's runtime ugprade version is based on the krest-v0.0.3, then your binary/docker image
+should be also based on the krest-v0.0.3
 5. Execute the scripts `sh forked.generated.sh`, it'll launch the forked parchain automatically
 However, please double-check the log carefully
 ```
@@ -120,3 +124,10 @@ RPC_ENDPOINT="https://rpcpc1-qa.agung.peaq.network" \
 DOCKER_COMPOSE_FOLDER="yoyo" \
 FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v06042023" \
 sh -e -x forked.generated.sh
+
+FORKED_CONFIG_FILE="config.parachain.krest.forked.yml" \
+RPC_ENDPOINT="https://erpc-krest.peaq.network" \
+DOCKER_COMPOSE_FOLDER="yoyo" \
+FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/krest-v0.0.3" \
+sh -e -x forked.generated.sh
+```

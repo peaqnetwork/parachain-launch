@@ -8,6 +8,8 @@ import { cryptoWaitReady, encodeAddress, decodeAddress } from '@polkadot/util-cr
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import _ from 'lodash';
+import { u8aToHex } from '@polkadot/util';
+
 
 import { Config, Parachain, Chain, DockerConfig, DockerNode } from './types';
 
@@ -249,6 +251,24 @@ const getAddress = (val: string) => {
 };
 
 /**
+ * Get account address
+ *
+ * @param val
+ */
+const getEVMAddress = (val: string) => {
+  try {
+    const addr = decodeAddress(val);
+    return encodeAddress(addr);
+  } catch {}
+
+  const keyring = new Keyring();
+  const pair = keyring.createFromUri(`//${_.startCase(val)}`, undefined, 'ecdsa');
+  const publicKeyHex = u8aToHex(pair.publicKey);
+
+  return publicKeyHex;
+};
+
+/**
  * Generate node key
  *
  * @param image
@@ -368,8 +388,14 @@ const generateParachainGenesisFile = (
   const endowed = [];
 
   if (chain.sudo && runtime.sudo) {
-    runtime.sudo.key = getAddress(chain.sudo);
-    endowed.push(runtime.sudo.key);
+    if (image.includes('moon')) {
+      /*
+       * runtime.sudo.key = getEVMAddress(chain.sudo);
+       */
+    } else {
+      runtime.sudo.key = getAddress(chain.sudo);
+      endowed.push(runtime.sudo.key);
+    }
   }
 
   if (chain.collators) {
@@ -404,6 +430,18 @@ const generateParachainGenesisFile = (
         }),
       });
       endowed.push(...invulnerables);
+    } else if (image.includes('moon')) {
+      /*
+       * const invulnerables = chain.collators.map(getEVMAddress);
+       * setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });
+       * setParachainRuntimeValue(runtime, 'session', {
+       *   keys: chain.collators.map((x) => {
+       *     const addr = getEVMAddress(x);
+       *     return [addr, addr, { aura: addr }];
+       *   }),
+       * });
+       * endowed.push(...invulnerables);
+       */
     } else {
       const invulnerables = chain.collators.map(getAddress);
       setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });

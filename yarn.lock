@@ -2337,10 +2337,10 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.4.tgz#5d9b63132df54d8909fce1c3f8ca260fdd693e17"
   integrity sha512-ReVR2rLTV1kvtlWFyuot+d1pkpG2Fw/XKE3PDAdj57rbM97ttSp9JZ2UsP+2EHTylra9cUf6JA7tGwW1INzUrA==
 
-"@types/readline-sync@^1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@types/readline-sync/-/readline-sync-1.4.4.tgz#8568292efe4ddd94d0ccee958b29cc3f4e0ea140"
-  integrity sha512-cFjVIoiamX7U6zkO2VPvXyTxbFDdiRo902IarJuPVxBhpDnXhwSaVE86ip+SCuyWBbEioKCkT4C88RNTxBM1Dw==
+"@types/readline-sync@^1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@types/readline-sync/-/readline-sync-1.4.6.tgz#200bcb07cd3bd6f316a97b70ebce7470ff342a57"
+  integrity sha512-PdvRkoeM8EYvm3XDj139uyqeYzbOSF+ytyDKuBUXqpf80NBRUtZWQm4qfFw8mhj34f+HIxWPghFnPUTlEi48Bg==
 
 "@types/shelljs@^0.8.12":
   version "0.8.12"

@@ -531,7 +531,6 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
         '--base-path=/data',
         `--chain=/app/${config.relaychain.chain}.json`,
         '--validator',
-        '--ws-external',
         '--rpc-external',
         '--rpc-cors=all',
         `--name=${node.name}`,
@@ -572,7 +571,6 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
         command: [
           `--base-path=${volumePath}`,
           `--chain=/app/${getChainspecName(parachain.chain, parachain.id)}`,
-          '--ws-external',
           '--rpc-external',
           '--rpc-cors=all',
           `--name=${name}`,

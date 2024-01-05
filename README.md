@@ -46,16 +46,16 @@ yarn install
 yarn build
 ```
 
-3. Use the `config.yml` file and edit as necessary.
+3. Use the `config.parachain.yml` file and edit as necessary.
 
 4. Run the service from within the local directory:
 
 ```sh
-./bin/parachain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
+./bin/parachain-launch generate --config=/path/to/config.parachain.yml [--yes] [--output=/path/to/output]
 ```
 
 ```sh
-./bin/parachain-launch generate --config=config.yml --output=yoyo
+./bin/parachain-launch generate --config=config.parachain.yml --output=yoyo
 ```
 
 This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.

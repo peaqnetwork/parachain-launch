@@ -18,7 +18,7 @@ relaychain:
           maxCapacity: 8
           maxMessageSize: 102400
   env: # environment variables for all relaychain nodes
-    RUST_LOG: parachain::candidate-backing=trace,xcm=trace
+    RUST_LOG: parachain::candidate-backing=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
   nodes: # nodes config
@@ -28,51 +28,66 @@ relaychain:
       port: 30333 # default libp2p port number is `30333 + global_node_index`
       flags: # additional CLI flags for this node
         - --force-authoring
-      env:
-        RUST_LOG: xcm=trace # environment varitables for this node
     - name: bob
     - name: charlie
 
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq_para_node:latest
+- image: peaq/parachain:peaq-dev-v0.0.10
   chain: # this could be a string like `dev` or a config object
-    base: dev # the chain to use
+    base: dev-local # the chain to use
+    chainType: Development
     collators: # override collators
-      - alice # this imply //Alice
+      - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
         balances:
-          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 10000000000000000]
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
+          - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
+          - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
+          - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
+          - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
   id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
     # - --force-authoring
     - --execution=wasm
+    - --state-pruning=archive
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - name: alice # the node name and session key, this imply `--alice`
-      wsPort: 9947 # default ws port number is `9944 + global_node_index`
-      rpcPort: 9936 # default rpc port number is `9933 + global_node_index`
-      port: 31333 # default libp2p port number is `30333 + global_node_index`
+    - wsPort: 10044
+      rpcPort: 10033
+      port: 40336
       flags: # additional CLI flags for this node
-        - --force-authoring
-        - --alice
-      env:
-        RUST_LOG: xcm=trace # environment varitables for this node
-- image: acala/acala-node:2.5.0
+        - --ferdie
+    # - wsPort: 10045
+      # rpcPort: 10034
+      # port: 40337
+      # flags:
+        # - --charlie
+- image: acala/acala-node:2.21.0
   chain:
-    base: acala-dev
+    base: acala-local
     collators:
       - bob
-    sudo: bob
+    sudo: alice
+    runtimeGenesisConfig: # additonal genesis override
+      balances:
+        balances:
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
+          - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
+          - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
+          - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
+          - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
   id: 3000
   parachain: true
   flags:
@@ -89,10 +104,9 @@ parachains:
   volumePath: /acala/data
   nodes: # nodes config
     - name: bob # the node name and session key, this imply `--alice`
-      wsPort: 10047 # default ws port number is `9944 + global_node_index`
-      rpcPort: 10036 # default rpc port number is `9933 + global_node_index`
-      port: 32333 # default libp2p port number is `30333 + global_node_index`
+      wsPort: 10144 # default ws port number is `9944 + global_node_index`
+      rpcPort: 10133 # default rpc port number is `9933 + global_node_index`
+      port: 30533 # default libp2p port number is `30333 + global_node_index`
       flags:
         - --bob
       relaychainFlags: # additional CLI flags for relaychain part
-        - --name=relaychain-bob

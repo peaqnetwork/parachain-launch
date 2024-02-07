@@ -3,4 +3,5 @@ RPC_ENDPOINT="https://rpcpc1-qa.agung.peaq.network" \
 DOCKER_COMPOSE_FOLDER="yoyo" \
 FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v0.0.10" \
 KEEP_COLLATOR="false" \
+KEEP_PARACHAIN="true" \
 sh -e -x forked.generated.sh

@@ -21,42 +21,41 @@ relaychain:
       env:
         RUST_LOG: babe=debug # environment varitables for this node
     - name: bob
-    - name: charlie
 
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq_para_node:latest
+- image: peaq_para_node:krest-v0.0.3
   chain: # this could be a string like `dev` or a config object
-    base: dev-local # the chain to use
+    base: krest-local # the chain to use
+    chainType: Development
     collators: # override collators
-      - alice # this imply //Alice
-      - bob # this imply //Bob
+      - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
         balances:
-          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 10000000000000000]
-  id: 2000 # override parachain id
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
+          - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
+          - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
+          - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
+          - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
+  id: 2241 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
     # - --force-authoring
     - --execution=wasm
+    - --state-pruning=archive
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
-  volumePath: /chain-data # The path to mount volume and base path, default to /data
+  volumePath: /data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-  - wsPort: 9947
-    rpcPort: 9936
-    port: 30336
-    flags: # additional CLI flags for this node
-      - --alice
-    relaychainFlags: # additional CLI flags for relaychain part
-      - --name=relaychain-alice
-    env:
-      RUST_LOG: aura=debug # environment varitables for this node
-  - flags:
-    - --bob
+    - wsPort: 10044
+      rpcPort: 10033
+      port: 40336
+      flags: # additional CLI flags for this node
+        - --ferdie

@@ -18,7 +18,7 @@ relaychain:
           maxCapacity: 8
           maxMessageSize: 102400
   env: # environment variables for all relaychain nodes
-    RUST_LOG: parachain::candidate-backing=trace,xcm=trace
+    RUST_LOG: parachain::candidate-backing=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
   nodes: # nodes config
@@ -34,7 +34,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq_para_node:latest
+- image: peaq/parachain:peaq-dev-v0.0.10
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development
@@ -60,18 +60,19 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace,xcm=trace
+    RUST_LOG: sc_basic_authorship=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - name: ferdie
-      wsPort: 10044
+    - wsPort: 10044
       rpcPort: 10033
-      port: 30433
+      port: 40336
       flags: # additional CLI flags for this node
         - --ferdie
-      relaychainFlags: # additional CLI flags for relaychain part
-        - --name=relaychain-ferdie
-
+    # - wsPort: 10045
+      # rpcPort: 10034
+      # port: 40337
+      # flags:
+        # - --charlie
 - image: acala/acala-node:2.21.0
   chain:
     base: acala-local

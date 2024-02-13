@@ -18,7 +18,7 @@ relaychain:
           maxCapacity: 8
           maxMessageSize: 102400
   env: # environment variables for all relaychain nodes
-    RUST_LOG: parachain::candidate-backing=trace
+    RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
   nodes: # nodes config
@@ -28,8 +28,6 @@ relaychain:
       port: 30333 # default libp2p port number is `30333 + global_node_index`
       flags: # additional CLI flags for this node
         - --force-authoring
-      env:
-        RUST_LOG: babe=debug # environment varitables for this node
     - name: bob
     - name: charlie
 
@@ -44,6 +42,7 @@ parachains:
       # - alice
       # - bob
       - ferdie
+      # - eve
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -64,32 +63,25 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace
+    RUST_LOG: sc_basic_authorship=trace,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - wsPort: 10044
+    - name: ferdie
+      wsPort: 10044
       rpcPort: 10033
-      port: 40336
+      port: 30433
       flags: # additional CLI flags for this node
         - --ferdie
-    # - wsPort: 10045
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-ferdie
+    # - name: eve
+    #   wsPort: 10045
     #   rpcPort: 10034
     #   port: 40337
-    #   flags:
-    #     - --dave
-    # - wsPort: 10046
-    #   rpcPort: 10035
-    #   port: 40338
     #   flags: # additional CLI flags for this node
-    #     - --alice
-    # - wsPort: 10047
-    #   rpcPort: 10036
-    #   port: 40339
-    #   flags:
-    #     - --bob
-    # - wsPort: 10048
-    #   rpcPort: 10037
-    #   port: 40340
+    #     - --eve
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-eve
 
 - image: acala/acala-node:2.21.0
   chain:

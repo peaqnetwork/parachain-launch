@@ -34,7 +34,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: sfffaaa/peaq-test:peaq-dev-moonbeam-v0.0.13
+- image: sfffaaa/peaq-test:peaq-dev-moonbeam-v0.0.14
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

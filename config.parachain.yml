@@ -40,6 +40,7 @@ parachains:
     chainType: Development
     collators: # override collators
       - ferdie
+      # - eve
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -71,6 +72,14 @@ parachains:
         - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
         - --name=relaychain-ferdie
+    # - name: eve
+    #   wsPort: 10045
+    #   rpcPort: 10034
+    #   port: 40337
+    #   flags: # additional CLI flags for this node
+    #     - --eve
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-eve
 
 - image: acala/acala-node:2.21.0
   chain:

@@ -3,11 +3,15 @@
 KEEP_CHAIN=${KEEP_CHAIN:-"false"}
 SURI=${SURI}
 
-PARACHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/dev-local-2000.json"
-PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/40336/p2p/12D3KooWBD8acxfoqmVzC3eu7XqrQdvh7TMF1LW2PQtWRTjTVZBR"
+PARACHAIN_ID="3013"
+PARACHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/dev-local-3013.json"
+PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/31333/p2p/12D3KooWExYdFUvpfKee9W5B1Ybp8JQgKECf6TUVDdYsMmcYkFma"
 RELAYCHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/rococo-local.json"
-BINARY_PATH="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v0.0.10/peaq-node"
+BINARY_PATH="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v0.0.15.moonbeam/peaq-node"
 CHAIN_FOLDER="chain-folder-need-delete"
+
+# main sub-libp2p: [Parachain] 🏷n  Local node identity is: 12D3KooWSKbKXoRM1Au6ycCQAAS6ESCMNLBkbEC84Zd9ysQXJsrD
+
 
 if [ KEEP_CHAIN != "true" ]; then
   rm -rf $CHAIN_FOLDER
@@ -26,7 +30,7 @@ $BINARY_PATH \
   --key-type aura
 
 $BINARY_PATH \
-  --parachain-id 2000 \
+  --parachain-id $PARACHAIN_ID \
   --collator \
   --chain $PARACHAIN_CONFIG \
   --port 50334 \

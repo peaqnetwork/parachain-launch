@@ -39,9 +39,7 @@ parachains:
     base: krest-local # the chain to use
     chainType: Development
     collators: # override collators
-      # - alice
-      # - bob
-      - dave # this imply //Alice
+      # - dave # this imply //Alice
       - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
@@ -71,25 +69,11 @@ parachains:
       port: 40336
       flags: # additional CLI flags for this node
         - --ferdie
-    - wsPort: 10045
-      rpcPort: 10034
-      port: 40337
-      flags:
-        - --dave
-    # - wsPort: 10046
-    #   rpcPort: 10035
-    #   port: 40338
-    #   flags: # additional CLI flags for this node
-    #     - --alice
-    # - wsPort: 10047
-    #   rpcPort: 10036
-    #   port: 40339
+    # - wsPort: 10045
+    #   rpcPort: 10034
+    #   port: 40337
     #   flags:
-    #     - --bob
-    # - wsPort: 10048
-    #   rpcPort: 10037
-    #   port: 40340
-
+    #     - --dave
 - image: acala/acala-node:2.21.0
   chain:
     base: acala-local

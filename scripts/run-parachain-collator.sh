@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# Usage:
+# SURI="AA BB CC" ./run-parachain-collator.sh
+
 KEEP_CHAIN=${KEEP_CHAIN:-"false"}
 SURI=${SURI}
 
-PARACHAIN_ID="3013"
-PARACHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/dev-local-3013.json"
-PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/31333/p2p/12D3KooWExYdFUvpfKee9W5B1Ybp8JQgKECf6TUVDdYsMmcYkFma"
+PARACHAIN_ID="2000"
+PARACHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/dev-local-2000.json"
+PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/40336/p2p/12D3KooWAF6Zq8yKMWZe448d2fm2pLXxyZzFs9DC4GXSZ26CZvkm"
 RELAYCHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/rococo-local.json"
-BINARY_PATH="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v0.0.15.moonbeam/peaq-node"
+BINARY_PATH="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v0.0.11/peaq-node"
 CHAIN_FOLDER="chain-folder-need-delete"
 
 # main sub-libp2p: [Parachain] 🏷n  Local node identity is: 12D3KooWSKbKXoRM1Au6ycCQAAS6ESCMNLBkbEC84Zd9ysQXJsrD

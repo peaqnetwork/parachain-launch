@@ -69,7 +69,7 @@ parachains:
     - name: ferdie
       wsPort: 10044
       rpcPort: 10033
-      port: 30433
+      port: 40336
       flags: # additional CLI flags for this node
         - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part

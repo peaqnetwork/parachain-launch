@@ -10,10 +10,10 @@ relaychain:
     hrmp:
       preopenHrmpChannels:
         - sender: 3000
-          recipient: 2000
+          recipient: 3338
           maxCapacity: 8
           maxMessageSize: 102400
-        - sender: 2000
+        - sender: 3338
           recipient: 3000
           maxCapacity: 8
           maxMessageSize: 102400
@@ -34,13 +34,14 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq_para_node:latest
+- image: peaq/parachain:peaq-v0.0.5
   chain: # this could be a string like `dev` or a config object
-    base: dev-local # the chain to use
+    base: peaq-local # the chain to use
     chainType: Development
     collators: # override collators
+      # - alice
+      # - bob
       - ferdie
-      # - dave
       # - eve
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
@@ -52,7 +53,7 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 2000 # override parachain id
+  id: 3338 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
@@ -62,13 +63,13 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
+    RUST_LOG: sc_basic_authorship=trace,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - name: ferdie
       wsPort: 10044
       rpcPort: 10033
-      port: 30433
+      port: 40336
       flags: # additional CLI flags for this node
         - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
@@ -81,14 +82,7 @@ parachains:
     #     - --eve
     #   relaychainFlags: # additional CLI flags for relaychain part
     #     - --name=relaychain-eve
-    # - name: dave
-    #   wsPort: 10046
-    #   rpcPort: 10035
-    #   port: 40338
-    #   flags: # additional CLI flags for this node
-    #     - --dave
-    #   relaychainFlags: # additional CLI flags for relaychain part
-    #     - --name=relaychain-dave
+
 - image: acala/acala-node:2.21.0
   chain:
     base: acala-local

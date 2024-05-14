@@ -7,10 +7,10 @@ KEEP_CHAIN=${KEEP_CHAIN:-"false"}
 SURI=${SURI}
 
 PARACHAIN_ID="2000"
-PARACHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/dev-local-2000.json"
-PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/40336/p2p/12D3KooWAF6Zq8yKMWZe448d2fm2pLXxyZzFs9DC4GXSZ26CZvkm"
+PARACHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/dev-local-"${PARACHAIN_ID}".json"
+PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/40336/p2p/12D3KooWPB4WuY3hxh42rwDcxZcezQYTiozVKkypwX1qrjQ38fDc"
 RELAYCHAIN_CONFIG="/home/jaypan/Work/peaq/parachain-launch/yoyo/rococo-local.json"
-BINARY_PATH="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v0.0.11/peaq-node"
+BINARY_PATH="/home/jaypan/PublicSMB/peaq-node-binary/peaq-node.peaq-dev.v0.0.16"
 CHAIN_FOLDER="chain-folder-need-delete"
 
 # main sub-libp2p: [Parachain] 🏷n  Local node identity is: 12D3KooWSKbKXoRM1Au6ycCQAAS6ESCMNLBkbEC84Zd9ysQXJsrD

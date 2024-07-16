@@ -154,8 +154,7 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   const spec = getChainspec(relaychain.image, relaychain.chain);
 
   // clear authorities
-  const runtime = spec.genesis.runtime.runtime_genesis_config || spec.genesis.runtime;
-
+  const runtime = spec.genesis.runtimeGenesis?.patch || spec.genesis.runtime.runtime_genesis_config || spec.genesis.runtime;
   const sessionKeys = runtime.session.keys;
   sessionKeys.length = 0;
 
@@ -198,6 +197,10 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
       });
     }
     _.merge(runtime, config.relaychain.runtimeGenesisConfig);
+  }
+
+  if (runtime.paras == null) {
+    runtime.paras = { paras: [] };
   }
 
   // genesis parachains
@@ -360,7 +363,7 @@ const generateParachainGenesisFile = (
   } else {
     spec.paraId = id;
   }
-  const runtime = spec.genesis.runtime;
+  const runtime = spec.genesis.runtimeAndCode?.runtime || spec.genesis.runtime;
   if (runtime) {
     runtime.parachainInfo.parachainId = id;
   }

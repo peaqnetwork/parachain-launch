@@ -1,26 +1,28 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.0.0 # the docker image to use
+  image: parity/polkadot:v1.8.0 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
         validation_upgrade_cooldown: 10
         validation_upgrade_delay: 10
-    hrmp:
-      preopenHrmpChannels:
-        - sender: 3000
-          recipient: 2241
-          maxCapacity: 8
-          maxMessageSize: 102400
-        - sender: 2241
-          recipient: 3000
-          maxCapacity: 8
-          maxMessageSize: 102400
+    # hrmp:
+    #   preopenHrmpChannels:
+    #     - sender: 3000
+    #       recipient: 2241
+    #       maxCapacity: 8
+    #       maxMessageSize: 102400
+    #     - sender: 2241
+    #       recipient: 3000
+    #       maxCapacity: 8
+    #       maxMessageSize: 102400
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
+    - --no-hardware-benchmarks
+    - --insecure-validator-i-know-what-i-do
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 9944 # default ws port number is `9944 + global_node_index`

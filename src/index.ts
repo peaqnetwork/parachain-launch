@@ -251,6 +251,13 @@ const getAddress = (val: string) => {
   return pair.address;
 };
 
+const getEthAddress = (val: string) => {
+  const keyring = new Keyring();
+  const pair = keyring.createFromUri(`//${_.startCase(val)}`, undefined, 'ecdsa');
+
+  return pair.address;
+}
+
 /**
  * Generate node key
  *
@@ -363,7 +370,7 @@ const generateParachainGenesisFile = (
   } else {
     spec.paraId = id;
   }
-  const runtime = spec.genesis.runtimeAndCode?.runtime || spec.genesis.runtime;
+  const runtime = spec.genesis.runtimeAndCode?.runtime || spec.genesis.runtimeGenesis?.patch || spec.genesis.runtimeGenesis?.config || spec.genesis.runtime;
   if (runtime) {
     runtime.parachainInfo.parachainId = id;
   }
@@ -407,6 +414,8 @@ const generateParachainGenesisFile = (
         }),
       });
       endowed.push(...invulnerables);
+    } else if (image.includes('moonbeam')) {
+      // Ignore, only allow to use alice
     } else {
       const invulnerables = chain.collators.map(getAddress);
       setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });

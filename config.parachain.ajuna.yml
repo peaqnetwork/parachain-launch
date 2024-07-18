@@ -29,21 +29,21 @@ relaychain:
 
 # Parachain Configuration
 parachains:
-- image: moonbeamfoundation/moonbeam:sha-0178eb94
+- image: ajuna/parachain-ajuna:v0.7.0
   chain:
-    base: moonriver-local
-    # collators:
-    #   - Alith
-    # sudo: Alith
-    # runtimeGenesisConfig: # additonal genesis override
-    #   balances:
-    #     balances:
-    #       - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
-    #       - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
-    #       - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
-    #       - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
-    #       - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
-    #       - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
+    base: ajuna-rococo-local
+    collators:
+      - bob
+    sudo: alice
+    runtimeGenesisConfig: # additonal genesis override
+      balances:
+        balances:
+          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
+          - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
+          - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
+          - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
+          - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
   id: 3000
   parachain: true
   flags:
@@ -59,10 +59,10 @@ parachains:
   # Acala's path should be under the acala/data
   volumePath: /data
   nodes: # nodes config
-    - name: Alith # the node name and session key, this imply `--alice`
+    - name: bob # the node name and session key, this imply `--alice`
       wsPort: 10044 # default ws port number is `9944 + global_node_index`
       rpcPort: 10033 # default rpc port number is `9933 + global_node_index`
       port: 30533 # default libp2p port number is `30333 + global_node_index`
       flags:
-        - --alice
+        - --bob
       relaychainFlags: # additional CLI flags for relaychain part

@@ -1,7 +1,7 @@
 # Relaychain Configuration
 relaychain:
   image: parity/polkadot:v1.13.0 # the docker image to use
-  chain: rococo-dev # the chain to use
+  chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
@@ -55,7 +55,6 @@ parachains:
     # - --force-authoring
     - --execution=wasm
     - --state-pruning=archive
-    - --para_id=2000
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes

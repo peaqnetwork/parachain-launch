@@ -1,12 +1,16 @@
 # Relaychain Configuration
 relaychain:
-  image: sfffaaa/polkadot:rococo-local-v1.8.0 # the docker image to use
+  image: sfffaaa/polkadot:rococo-local-v1.8.0-10min # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
         validation_upgrade_cooldown: 10
         validation_upgrade_delay: 10
+        async_backing_params:
+          max_candidate_depth: 3
+          allowed_ancestry_len: 2
+        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes

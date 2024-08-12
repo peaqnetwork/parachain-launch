@@ -5,7 +5,7 @@ FORKED_CONFIG_FILE=${FORKED_CONFIG_FILE:-"config.parachain.agung.forked.yml"}
 RPC_ENDPOINT=${RPC_ENDPOINT:-"https://rpcpc1-qa.agung.peaq.network"}
 DOCKER_COMPOSE_FOLDER=${DOCKER_COMPOSE_FOLDER:-"yoyo"}
 FORK_FOLDER=${FORK_FOLDER:="path-not-exist"}
-ROCOCO_CONFIG_FILE=${ROCOCO_CONFIG_FILE:-"rococo-staging.json"}
+ROCOCO_CONFIG_FILE=${ROCOCO_CONFIG_FILE:-"rococo-local.json"}
 
 extract_parachain_spec() {
   local input_file="$1"

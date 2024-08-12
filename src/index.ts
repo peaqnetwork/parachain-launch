@@ -154,7 +154,8 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   const spec = getChainspec(relaychain.image, relaychain.chain);
 
   // clear authorities
-  const runtime = spec.genesis.runtimeGenesis?.patch || spec.genesis.runtime.runtime_genesis_config || spec.genesis.runtime;
+  const runtime =
+    spec.genesis.runtimeGenesis?.patch || spec.genesis.runtime.runtime_genesis_config || spec.genesis.runtime;
   const sessionKeys = runtime.session.keys;
   sessionKeys.length = 0;
 
@@ -250,13 +251,6 @@ const getAddress = (val: string) => {
 
   return pair.address;
 };
-
-const getEthAddress = (val: string) => {
-  const keyring = new Keyring();
-  const pair = keyring.createFromUri(`//${_.startCase(val)}`, undefined, 'ecdsa');
-
-  return pair.address;
-}
 
 /**
  * Generate node key
@@ -370,7 +364,11 @@ const generateParachainGenesisFile = (
   } else {
     spec.paraId = id;
   }
-  const runtime = spec.genesis.runtimeAndCode?.runtime || spec.genesis.runtimeGenesis?.patch || spec.genesis.runtimeGenesis?.config || spec.genesis.runtime;
+  const runtime =
+    spec.genesis.runtimeAndCode?.runtime ||
+    spec.genesis.runtimeGenesis?.patch ||
+    spec.genesis.runtimeGenesis?.config ||
+    spec.genesis.runtime;
   if (runtime) {
     runtime.parachainInfo.parachainId = id;
   }

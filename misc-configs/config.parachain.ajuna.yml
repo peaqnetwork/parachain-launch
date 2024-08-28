@@ -1,26 +1,23 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.0.0 # the docker image to use
+  image: sfffaaa/polkadot:rococo-local-v1.8.0-10min # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
         validation_upgrade_cooldown: 10
         validation_upgrade_delay: 10
-    hrmp:
-      preopenHrmpChannels:
-        - sender: 3000
-          recipient: 3338
-          maxCapacity: 8
-          maxMessageSize: 102400
-        - sender: 3338
-          recipient: 3000
-          maxCapacity: 8
-          maxMessageSize: 102400
+        async_backing_params:
+          max_candidate_depth: 3
+          allowed_ancestry_len: 2
+        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
+    - --no-hardware-benchmarks
+    - --insecure-validator-i-know-what-i-do
+    # - --unsafe-force-node-key-generation
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 9944 # default ws port number is `9944 + global_node_index`
@@ -33,50 +30,9 @@ relaychain:
 
 # Parachain Configuration
 parachains:
-# Config for first parachain
-- image: peaq/parachain:peaq-v0.0.7
-  chain: # this could be a string like `dev` or a config object
-    base: peaq-local # the chain to use
-    chainType: Development
-    collators: # override collators
-      - ferdie
-      # - dave
-    sudo: alice # override sudo key to //Alice
-    runtimeGenesisConfig: # additonal genesis override
-      balances:
-        balances:
-          - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
-          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
-          - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
-          - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
-          - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
-          - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 3338 # override parachain id
-  parachain: true # this is parachain, not parathread
-  flags: # CLI flags for this parachain nodes
-    - --rpc-methods=unsafe
-    # - --force-authoring
-    - --execution=wasm
-    - --state-pruning=archive
-  relaychainFlags: # CLI flags for the relaychain port
-    - --execution=wasm
-  env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace,xcm=trace
-  volumePath: /chain-data # The path to mount volume and base path, default to /data
-  nodes: # nodes config
-    - wsPort: 10044
-      rpcPort: 10033
-      port: 40336
-      flags: # additional CLI flags for this node
-        - --ferdie
-    # - wsPort: 10045
-    #   rpcPort: 10034
-    #   port: 40337
-    #   flags:
-    #     - --dave
-- image: acala/acala-node:2.21.0
+- image: ajuna/parachain-ajuna:v0.7.0
   chain:
-    base: acala-local
+    base: ajuna-rococo-local
     collators:
       - bob
     sudo: alice
@@ -102,11 +58,11 @@ parachains:
   env:
     RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
   # Acala's path should be under the acala/data
-  volumePath: /acala/data
+  volumePath: /data
   nodes: # nodes config
     - name: bob # the node name and session key, this imply `--alice`
-      wsPort: 10144 # default ws port number is `9944 + global_node_index`
-      rpcPort: 10133 # default rpc port number is `9933 + global_node_index`
+      wsPort: 10044 # default ws port number is `9944 + global_node_index`
+      rpcPort: 10033 # default rpc port number is `9933 + global_node_index`
       port: 30533 # default libp2p port number is `30333 + global_node_index`
       flags:
         - --bob

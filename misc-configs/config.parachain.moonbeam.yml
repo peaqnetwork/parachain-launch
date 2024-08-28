@@ -1,0 +1,69 @@
+# Relaychain Configuration
+relaychain:
+  image: sfffaaa/polkadot:rococo-local-v1.8.0-10min # the docker image to use
+  chain: rococo-local # the chain to use
+  runtimeGenesisConfig: # additonal genesis override
+    configuration:
+      config:
+        validation_upgrade_cooldown: 10
+        validation_upgrade_delay: 10
+        async_backing_params:
+          max_candidate_depth: 3
+          allowed_ancestry_len: 2
+        scheduling_lookahead: 2
+  env: # environment variables for all relaychain nodes
+    RUST_LOG: parachain::candidate-backing=trace,xcm=trace
+  flags: # additional CLI flags for all relaychain nodes
+    - --rpc-methods=unsafe
+    - --no-hardware-benchmarks
+    - --insecure-validator-i-know-what-i-do
+    # - --unsafe-force-node-key-generation
+  nodes: # nodes config
+    - name: alice # the node name and session key, this imply `--alice`
+      wsPort: 9944 # default ws port number is `9944 + global_node_index`
+      rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
+      port: 30333 # default libp2p port number is `30333 + global_node_index`
+      flags: # additional CLI flags for this node
+        - --force-authoring
+    - name: bob
+    - name: charlie
+
+# Parachain Configuration
+parachains:
+- image: moonbeamfoundation/moonbeam:sha-0178eb94
+  chain:
+    base: moonriver-local
+    # collators:
+    #   - Alith
+    # sudo: Alith
+    # runtimeGenesisConfig: # additonal genesis override
+    #   balances:
+    #     balances:
+    #       - [5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY, 1000000000000000000000]
+    #       - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 1000000000000000000000]
+    #       - [5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y, 1000000000000000000000]
+    #       - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
+    #       - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
+    #       - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
+  id: 3000
+  parachain: true
+  flags:
+    - --rpc-methods=unsafe
+    - --force-authoring
+    - --wasm-execution=compiled
+    - --execution=wasm
+  relaychainFlags:
+    - --wasm-execution=compiled
+    - --execution=wasm
+  env:
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
+  # Acala's path should be under the acala/data
+  volumePath: /data
+  nodes: # nodes config
+    - name: Alith # the node name and session key, this imply `--alice`
+      wsPort: 10044 # default ws port number is `9944 + global_node_index`
+      rpcPort: 10033 # default rpc port number is `9933 + global_node_index`
+      port: 30533 # default libp2p port number is `30333 + global_node_index`
+      flags:
+        - --alice
+      relaychainFlags: # additional CLI flags for relaychain part

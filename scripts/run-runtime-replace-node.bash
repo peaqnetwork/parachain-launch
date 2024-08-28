@@ -2,13 +2,15 @@
 
 # Usage:
 # ./scripts/run-runtime-replace-node.bash
+# KEEP_CHAIN=false SYNC_PHASE=true bash ./scripts/run-runtime-replace-node.bash
+# KEEP_CHAIN=true SYNC_PHASE=false bash ./scripts/run-runtime-replace-node.bash
 
 KEEP_CHAIN=${KEEP_CHAIN:-"false"}
 SYNC_PHASE=${SYNC_PHASE:-"false"}
 
-TYPE="peaq-dev"
+TYPE="peaq"
 VERSION="v0.0.101"
-PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/40336/p2p/12D3KooWAAWTHnoNukxynrKw4P1oLXhCCx8jEfGSkNYeZdLhKiAR"
+PARACHAIN_BOOTNODE="/ip4/127.0.0.1/tcp/40336/p2p/12D3KooWBDegsxofY7GkRUVd6r8WgbyTZMnFDmM7g1iESHwLrSNA"
 
 if [ "$TYPE" == "peaq-dev" ]; then
   PARACHAIN_ID="2000"
@@ -60,8 +62,9 @@ if [ "${SYNC_PHASE}" == "true" ]; then
     --unsafe-rpc-external \
     --rpc-cors=all
 elif [ "${SYNC_PHASE}" != "true" ]; then
-  docker ps --format "{{.ID}} {{.Image}}" | grep ${PARACHAIN_ID} | awk '{print $1}' | xargs docker kill
+  docker ps --format "{{.ID}} {{.Image}}" | grep "${PARACHAIN_ID}-0" | awk '{print $1}' | xargs docker kill
 
+  RUST_LOG=xcm=trace \
   $BINARY_PATH \
     --parachain-id $PARACHAIN_ID \
     --chain $PARACHAIN_CONFIG \
@@ -71,15 +74,16 @@ elif [ "${SYNC_PHASE}" != "true" ]; then
     --unsafe-rpc-external \
     --rpc-cors=all \
     --rpc-methods=Unsafe \
-    --execution wasm \
     --bootnodes $PARACHAIN_BOOTNODE \
+    --node-key=f9b7c8373875db70a5319a11f5d85612a247b86014f38fae34500552ef82aa96 \
     --collator \
     --ferdie \
     -- \
-    --execution wasm \
     --chain $RELAYCHAIN_CONFIG \
     --port 50345 \
     --rpc-port 20055 \
     --unsafe-rpc-external \
     --rpc-cors=all
+
+    # 12D3KooWRxmsc76n8Tfxn4eML55HuQz2ajsge6MoRubstFKJ9CgY
 fi

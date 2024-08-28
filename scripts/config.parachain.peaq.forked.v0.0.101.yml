@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: sfffaaa/polkadot:rococo-local-v1.8.0-10min # the docker image to use
+  image: parity/polkadot:v1.8.0 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -23,15 +23,13 @@ relaychain:
       wsPort: 9944 # default ws port number is `9944 + global_node_index`
       rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
       port: 30333 # default libp2p port number is `30333 + global_node_index`
-      flags: # additional CLI flags for this node
-        - --force-authoring
     - name: bob
     - name: charlie
 
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-v0.0.7
+- image: peaq/parachain:peaq-v0.0.101
   chain: # this could be a string like `dev` or a config object
     base: peaq-local # the chain to use
     chainType: Development
@@ -72,7 +70,7 @@ parachains:
     #   flags:
     #     - --dave
 # Config for xcm parachain
-- image: peaq_para_node:latest
+- image: peaq/parachain:peaq-v0.0.101
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

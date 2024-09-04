@@ -10,10 +10,10 @@ relaychain:
     hrmp:
       preopenHrmpChannels:
         - sender: 3000
-          recipient: 3013
+          recipient: 3338
           maxCapacity: 8
           maxMessageSize: 102400
-        - sender: 3013
+        - sender: 3338
           recipient: 3000
           maxCapacity: 8
           maxMessageSize: 102400
@@ -34,11 +34,12 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: sfffaaa/peaq-test:peaq-dev-moonbeam-v0.0.14
+- image: sfffaaa/peat-test:peaq-token-economy-v1-240509
   chain: # this could be a string like `dev` or a config object
-    base: dev-local # the chain to use
+    base: peaq-local # the chain to use
     chainType: Development
     collators: # override collators
+      # - dave # this imply //Alice
       - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
@@ -50,27 +51,84 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 3013 # override parachain id
+  id: 3338 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
     # - --force-authoring
     - --execution=wasm
-    - --state-pruning=archive
+    # - --state-pruning=archive
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - name: ferdie # the node name and session key, this imply `--alice`
-      wsPort: 10044 # default ws port number is `9944 + global_node_index`
-      rpcPort: 10033 # default rpc port number is `9933 + global_node_index`
-      port: 40336
+    - wsPort: 10044
+      rpcPort: 10033
+      port: 40333
       flags: # additional CLI flags for this node
         - --ferdie
+    - name: collator-0
+      wsPort: 10045
+      rpcPort: 20034
+      port: 30434
       relaychainFlags: # additional CLI flags for relaychain part
-        - --name=relaychain-ferdie
+        - --name=relaychain-0
+    - name: collator-1
+      wsPort: 10046
+      rpcPort: 20035
+      port: 30435
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-1
+    - name: collator-2
+      wsPort: 10047
+      rpcPort: 20036
+      port: 30436
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-2
+    - name: collator-3
+      wsPort: 10048
+      rpcPort: 20037
+      port: 30437
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-3
+    - name: collator-4
+      wsPort: 10049
+      rpcPort: 20038
+      port: 30438
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-4
+    - name: collator-5
+      wsPort: 10050
+      rpcPort: 20039
+      port: 30439
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-5
+    - name: collator-6
+      wsPort: 10051
+      rpcPort: 20040
+      port: 30440
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-6
+    - name: collator-7
+      wsPort: 10052
+      rpcPort: 20041
+      port: 30441
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-7
+    - name: collator-8
+      wsPort: 10053
+      rpcPort: 20042
+      port: 30442
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-8
+    - name: collator-9
+      wsPort: 10054
+      rpcPort: 20043
+      port: 30443
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-9
 - image: acala/acala-node:2.21.0
   chain:
     base: acala-local

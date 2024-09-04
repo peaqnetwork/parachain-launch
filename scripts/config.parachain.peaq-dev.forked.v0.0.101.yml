@@ -23,17 +23,15 @@ relaychain:
       wsPort: 9944 # default ws port number is `9944 + global_node_index`
       rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
       port: 30333 # default libp2p port number is `30333 + global_node_index`
-      flags: # additional CLI flags for this node
-        - --force-authoring
     - name: bob
     - name: charlie
 
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:krest-v0.0.7
+- image: peaq/parachain:peaq-dev-v0.0.101
   chain: # this could be a string like `dev` or a config object
-    base: krest-local # the chain to use
+    base: dev-local # the chain to use
     chainType: Development
     collators: # override collators
       - ferdie
@@ -48,7 +46,7 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 2241 # override parachain id
+  id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
@@ -58,7 +56,7 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace
+    RUST_LOG: sc_basic_authorship=trace,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 10044
@@ -72,7 +70,7 @@ parachains:
     #   flags:
     #     - --dave
 # Config for xcm parachain
-- image: peaq_para_node:latest
+- image: peaq/parachain:peaq-dev-v0.0.101
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

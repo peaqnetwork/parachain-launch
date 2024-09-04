@@ -1,26 +1,23 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.0.0 # the docker image to use
+  image: parity/polkadot:v1.8.0 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
         validation_upgrade_cooldown: 10
         validation_upgrade_delay: 10
-    hrmp:
-      preopenHrmpChannels:
-        - sender: 3000
-          recipient: 3013
-          maxCapacity: 8
-          maxMessageSize: 102400
-        - sender: 3013
-          recipient: 3000
-          maxCapacity: 8
-          maxMessageSize: 102400
+        async_backing_params:
+          max_candidate_depth: 3
+          allowed_ancestry_len: 2
+        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
+    - --no-hardware-benchmarks
+    - --insecure-validator-i-know-what-i-do
+    # - --unsafe-force-node-key-generation
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 9944 # default ws port number is `9944 + global_node_index`
@@ -36,10 +33,12 @@ parachains:
 # Config for first parachain
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
-    base: dev-local # the chain to use
+    base: peaq-local # the chain to use
     chainType: Development
     collators: # override collators
       - ferdie
+      # - dave
+      # - eve
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -50,7 +49,7 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 3013 # override parachain id
+  id: 3338 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
@@ -60,25 +59,43 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - name: ferdie # the node name and session key, this imply `--alice`
-      wsPort: 10044 # default ws port number is `9944 + global_node_index`
-      rpcPort: 10033 # default rpc port number is `9933 + global_node_index`
-      port: 31333 # default libp2p port number is `30333 + global_node_index`
+    - name: ferdie
+      wsPort: 10044
+      rpcPort: 10033
+      port: 30433
       flags: # additional CLI flags for this node
-        # - --force-authoring
         - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
         - --name=relaychain-ferdie
-
-- image: acala/acala-node:2.21.0
-  chain:
-    base: acala-local
-    collators:
-      - bob
-    sudo: alice
+    # - name: eve
+    #   wsPort: 10045
+    #   rpcPort: 10034
+    #   port: 40337
+    #   flags: # additional CLI flags for this node
+    #     - --eve
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-eve
+    # - name: dave
+    #   wsPort: 10046
+    #   rpcPort: 10035
+    #   port: 40338
+    #   flags: # additional CLI flags for this node
+    #     - --dave
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-dave
+# Config for xcm parachain
+- image: peaq_para_node:latest
+  chain: # this could be a string like `dev` or a config object
+    base: dev-local # the chain to use
+    chainType: Development
+    collators: # override collators
+      - ferdie
+      # - dave
+      # - eve
+    sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
         balances:
@@ -88,25 +105,40 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 3000
-  parachain: true
-  flags:
+  id: 3000 # override parachain id
+  parachain: true # this is parachain, not parathread
+  flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
-    - --force-authoring
-    - --wasm-execution=compiled
+    # - --force-authoring
     - --execution=wasm
-  relaychainFlags:
-    - --wasm-execution=compiled
+    - --state-pruning=archive
+  relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
-  env:
-    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
-  # Acala's path should be under the acala/data
-  volumePath: /acala/data
+  env: # environment variables for this parachain nodes
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=trace,xcm=trace,cumulus-pov-recovery=trace,cumulus-pallet-aura-ext=trace,cumulus-pallet-parachain-system=trace,cumulus-primitives-aura=trace
+  volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - name: bob # the node name and session key, this imply `--alice`
-      wsPort: 10144 # default ws port number is `9944 + global_node_index`
-      rpcPort: 10133 # default rpc port number is `9933 + global_node_index`
-      port: 30533 # default libp2p port number is `30333 + global_node_index`
-      flags:
-        - --bob
+    - name: ferdie
+      wsPort: 10144
+      rpcPort: 10133
+      port: 30533
+      flags: # additional CLI flags for this node
+        - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-ferdie
+    # - name: eve
+    #   wsPort: 10045
+    #   rpcPort: 10034
+    #   port: 40337
+    #   flags: # additional CLI flags for this node
+    #     - --eve
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-eve
+    # - name: dave
+    #   wsPort: 10046
+    #   rpcPort: 10035
+    #   port: 40338
+    #   flags: # additional CLI flags for this node
+    #     - --dave
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-dave

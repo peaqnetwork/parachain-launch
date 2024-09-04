@@ -31,13 +31,14 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:krest-v0.0.7
+- image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
     base: krest-local # the chain to use
     chainType: Development
     collators: # override collators
       - ferdie
       # - dave
+      # - eve
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -58,19 +59,33 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - wsPort: 10044
+    - name: ferdie
+      wsPort: 10044
       rpcPort: 10033
-      port: 40336
+      port: 30433
       flags: # additional CLI flags for this node
         - --ferdie
-    # - wsPort: 10045
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-ferdie
+    # - name: eve
+    #   wsPort: 10045
     #   rpcPort: 10034
     #   port: 40337
-    #   flags:
+    #   flags: # additional CLI flags for this node
+    #     - --eve
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-eve
+    # - name: dave
+    #   wsPort: 10046
+    #   rpcPort: 10035
+    #   port: 40338
+    #   flags: # additional CLI flags for this node
     #     - --dave
+    #   relaychainFlags: # additional CLI flags for relaychain part
+    #     - --name=relaychain-dave
 # Config for xcm parachain
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object

@@ -33,7 +33,7 @@ parachains:
 # Config for first parachain
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
-    base: dev-local # the chain to use
+    base: krest-local # the chain to use
     chainType: Development
     collators: # override collators
       - ferdie
@@ -49,7 +49,7 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
-  id: 2000 # override parachain id
+  id: 2241 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
@@ -59,7 +59,7 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=trace,xcm=trace,cumulus-pov-recovery=trace,cumulus-pallet-aura-ext=trace,cumulus-pallet-parachain-system=trace,cumulus-primitives-aura=trace
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - name: ferdie

@@ -75,6 +75,7 @@ parachains:
       flags:
         - --dave
 # Config for xcm parachain
+# TODO We should use 102 because 101 didn't support the XCM remote exeuction
 - image: peaq/parachain:peaq-dev-v0.0.101
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use

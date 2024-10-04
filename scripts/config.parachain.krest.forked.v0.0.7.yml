@@ -72,6 +72,7 @@ parachains:
     #   flags:
     #     - --dave
 # Config for xcm parachain
+# TODO After 102, the xcm remote rexecution work
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use

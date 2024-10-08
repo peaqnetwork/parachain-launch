@@ -120,13 +120,13 @@ should be also based on the krest-v0.0.3
 However, please double-check the log carefully
 ```
 FORKED_CONFIG_FILE="config.parachain.agung.forked.yml" \
-RPC_ENDPOINT="https://rpcpc1-qa.agung.peaq.network" \
+RPC_ENDPOINT="https://wss-async.agung.peaq.network" \
 DOCKER_COMPOSE_FOLDER="yoyo" \
 FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/peaq-dev-v06042023" \
 sh -e -x forked.generated.sh
 
 FORKED_CONFIG_FILE="config.parachain.krest.forked.yml" \
-RPC_ENDPOINT="https://erpc-krest.peaq.network" \
+RPC_ENDPOINT="https://krest.api.onfinality.io/public" \
 DOCKER_COMPOSE_FOLDER="yoyo" \
 FORK_FOLDER="/home/jaypan/Work/peaq/fork-test/fork-binary/krest-v0.0.3" \
 sh -e -x forked.generated.sh

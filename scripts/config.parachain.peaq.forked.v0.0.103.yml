@@ -29,7 +29,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-v0.0.102
+- image: peaq/parachain:peaq-v0.0.103
   chain: # this could be a string like `dev` or a config object
     base: peaq-local # the chain to use
     chainType: Development
@@ -71,7 +71,7 @@ parachains:
     #     - --dave
 # Config for xcm parachain
 # TODO We should use 103 because 102 didn't support the XCM remote exeuction
-- image: peaq/parachain:peaq-v0.0.102
+- image: peaq/parachain:peaq-v0.0.103
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

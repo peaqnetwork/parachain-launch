@@ -39,11 +39,6 @@ parachains:
     base: dev-local # the chain to use
     chainType: Development
     collators: # override collators
-      - alice
-      - bob
-      - charlie
-      - dave
-      - eve
       - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
@@ -55,6 +50,15 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
+          ### For collators
+          - [5EDFZ1kVq1Ma3w5UZhg8ccPRzMoKmr29XZ2nDB6RSD4ZGpT1, 1000000000000000000000]
+          - [5EHzSPk1T8VxUASiG9wEtxSR3ykDhvAEhYseF1ViqkuoBN5y, 1000000000000000000000]
+          - [5DNr8eH9o2eyNhfZQMgqnEMaR94c1dufQNo3ojhkfWb1k3YJ, 1000000000000000000000]
+          - [5DCi5nd6UFGDtojFbSbJ4uaCPc3TvikdmYP1LhMARNaf2gSe, 1000000000000000000000]
+          - [5Df46VdyJuJEXcocAYkfsmukLzKr5F6kcMXuBSnRvwQvZy9A, 1000000000000000000000]
+          - [5DyRH5xWVPXZWTdPeEr1VEc1MMY1jvg4faNfGPmRm54Qfw1v, 1000000000000000000000]
+          - [5ELWmrn5Q3UivEqh8jTYgHtdxeyphMT3gReeWBAtv5VMBSwd, 1000000000000000000000]
+
   id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
@@ -72,32 +76,22 @@ parachains:
       rpcPort: 9933
       port: 30336
       flags: # additional CLI flags for this node
-        - --alice
+        - --ferdie
     - wsPort: 9945
       rpcPort: 9934
       port: 30337
-      flags:
-        - --bob
     - wsPort: 9946
       rpcPort: 9935
       port: 30338
-      flags:
-        - --charlie
     - wsPort: 9947
       rpcPort: 9936
       port: 30339
-      flags:
-        - --dave
     - wsPort: 9948
       rpcPort: 9937
       port: 30340
-      flags:
-        - --eve
     - wsPort: 9949
       rpcPort: 9938
       port: 30341
-      flags:
-        - --ferdie
     - wsPort: 9950
       rpcPort: 9939
       port: 30342

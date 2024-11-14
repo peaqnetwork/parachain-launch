@@ -1,7 +1,7 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.13.0
-  chain: westend-local # the chain to use
+  image: parity/polkadot:v1.8.0 # the docker image to use
+  chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
@@ -10,13 +10,14 @@ relaychain:
         async_backing_params:
           max_candidate_depth: 3
           allowed_ancestry_len: 2
+        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
     - --no-hardware-benchmarks
     - --insecure-validator-i-know-what-i-do
-    - --unsafe-force-node-key-generation
+    # - --unsafe-force-node-key-generation
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 10044 # default ws port number is `9944 + global_node_index`
@@ -34,13 +35,12 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-v0.0.102
+- image: peaq/parachain:peaq-v0.0.103
   chain: # this could be a string like `dev` or a config object
     base: peaq-local # the chain to use
     chainType: Development
     collators: # override collators
       - ferdie
-      - dave
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -51,6 +51,14 @@ parachains:
           - [5DAAnrj7VHTznn2AWBemMuyBwZWs6FNFjdyVXUeYum3PTXFy, 1000000000000000000000]
           - [5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw, 1000000000000000000000]
           - [5CiPPseXPECbkjWCa6MnjNokrgYjMqmKndv2rSnekmSK2DjL, 1000000000000000000000]
+          ### For collators
+          - [5EDFZ1kVq1Ma3w5UZhg8ccPRzMoKmr29XZ2nDB6RSD4ZGpT1, 1000000000000000000000]
+          - [5EHzSPk1T8VxUASiG9wEtxSR3ykDhvAEhYseF1ViqkuoBN5y, 1000000000000000000000]
+          - [5DNr8eH9o2eyNhfZQMgqnEMaR94c1dufQNo3ojhkfWb1k3YJ, 1000000000000000000000]
+          - [5DCi5nd6UFGDtojFbSbJ4uaCPc3TvikdmYP1LhMARNaf2gSe, 1000000000000000000000]
+          - [5Df46VdyJuJEXcocAYkfsmukLzKr5F6kcMXuBSnRvwQvZy9A, 1000000000000000000000]
+          - [5DyRH5xWVPXZWTdPeEr1VEc1MMY1jvg4faNfGPmRm54Qfw1v, 1000000000000000000000]
+          - [5ELWmrn5Q3UivEqh8jTYgHtdxeyphMT3gReeWBAtv5VMBSwd, 1000000000000000000000]
   id: 3338 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes
@@ -72,11 +80,30 @@ parachains:
     - wsPort: 9945
       rpcPort: 9934
       port: 30337
-      flags:
-        - --dave
+    - wsPort: 9946
+      rpcPort: 9935
+      port: 30338
+    - wsPort: 9947
+      rpcPort: 9936
+      port: 30339
+    - wsPort: 9948
+      rpcPort: 9937
+      port: 30340
+    - wsPort: 9949
+      rpcPort: 9938
+      port: 30341
+    - wsPort: 9950
+      rpcPort: 9939
+      port: 30342
+    - wsPort: 9951
+      rpcPort: 9940
+      port: 30343
+    - wsPort: 9952
+      rpcPort: 9941
+      port: 30344
 # Config for xcm parachain
-# TODO We should use 103 because 102 didn't support the XCM remote exeuction
-- image: peaq/parachain:peaq-v0.0.102
+# TODO We should use 104 because 103 didn't support the XCM remote exeuction
+- image: peaq/parachain:peaq-v0.0.103
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

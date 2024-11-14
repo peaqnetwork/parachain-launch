@@ -6,6 +6,8 @@ RPC_ENDPOINT=${RPC_ENDPOINT:-"https://rpcpc1-qa.agung.peaq.network"}
 DOCKER_COMPOSE_FOLDER=${DOCKER_COMPOSE_FOLDER:-"yoyo"}
 FORK_FOLDER=${FORK_FOLDER:="path-not-exist"}
 RELAY_CHAIN_CONFIG_FILE=${RELAY_CHAIN_CONFIG_FILE:-"rococo-local.json"}
+DISABLE_PARACHAIN_DOWN=${DISABLE_PARACHAIN_DOWN:-"false"}
+DISABLE_PARACHAIN_UP=${DISABLE_PARACHAIN_DOWN:-"false"}
 
 extract_parachain_spec() {
   local input_file="$1"
@@ -51,7 +53,9 @@ else
 fi
 
 # Stop the docker-compose and regenerate
-(cd ${DOCKER_COMPOSE_FOLDER}; ${docker_compose_cmd} down -v) || true
+if [ "$DISABLE_PARACHAIN_DOWN" = "false" ]; then
+  (cd ${DOCKER_COMPOSE_FOLDER}; ${docker_compose_cmd} down -v) || true
+fi
 rm -rf ${DOCKER_COMPOSE_FOLDER} || true
 (./bin/parachain-launch generate --config="${FORKED_CONFIG_FILE}" --output=${DOCKER_COMPOSE_FOLDER})
 
@@ -78,6 +82,9 @@ sed -i "0,/\"genesis_head\": \".*\"/s//\"genesis_head\": \"$new_genesis_code\"/"
 PWD=`pwd`
 docker run --rm -v "${PWD}/${host_relay_chain_config_file}.original.json":/${RELAY_CHAIN_CONFIG_FILE} ${polkadot_image} build-spec --raw --chain=/${RELAY_CHAIN_CONFIG_FILE} --disable-default-bootnode > ${host_relay_chain_config_file}
 
+if [ "$DISABLE_PARACHAIN_UP" = "true" ]; then
+  exit 0
+fi
 ( \
  cd ${DOCKER_COMPOSE_FOLDER}; \
  ${docker_compose_cmd} up -d --build --remove-orphans; \

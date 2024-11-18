@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.8.0 # the docker image to use
+  image: sfffaaa/polkadot:rococo-local-v1.8.0-10min # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:

@@ -124,3 +124,33 @@ parachains:
       port: 30443
       relaychainFlags: # additional CLI flags for relaychain part
         - --name=relaychain-9
+    - name: collator-10
+      wsPort: 10055
+      rpcPort: 20044
+      port: 30444
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-10
+    - name: collator-11
+      wsPort: 10056
+      rpcPort: 20045
+      port: 30445
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-11
+    - name: collator-12
+      wsPort: 10057
+      rpcPort: 20046
+      port: 30446
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-12
+    - name: collator-13
+      wsPort: 10058
+      rpcPort: 20047
+      port: 30447
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-13
+    - name: collator-14
+      wsPort: 10059
+      rpcPort: 20048
+      port: 30448
+      relaychainFlags: # additional CLI flags for relaychain part
+        - --name=relaychain-14

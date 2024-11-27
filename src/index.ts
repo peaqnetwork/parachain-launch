@@ -526,11 +526,13 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
   let idx = 0;
   for (const node of config.relaychain.nodes) {
     const name = `relaychain-${_.kebabCase(node.name)}`;
+    const port = node.port || 30333 + idx;
+
     const nodeConfig: DockerNode = {
       ports: [
         ...(node.wsPort === false ? [] : [`${node.wsPort || 9944 + idx}:9944`]),
         ...(node.rpcPort === false ? [] : [`${node.rpcPort || 9933 + idx}:9933`]),
-        ...(node.port === false ? [] : [`${node.port || 30333 + idx}:30333`]),
+        ...(node.port === false ? [] : [`${port}:${port}`]),
       ],
       volumes: [`${name}:/data`],
       build: {
@@ -544,6 +546,8 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
         '--rpc-external',
         '--rpc-cors=all',
         `--name=${node.name}`,
+        '--in-peers=128',
+        '--out-peers=128',
         `--${node.name.toLowerCase()}`,
         ...(config.relaychain.flags || []),
         ...(node.flags || []),
@@ -567,11 +571,13 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
     for (const parachainNode of parachain.nodes) {
       const name = `parachain-${parachain.id}-${nodeIdx}`;
       const parchainIdArgs = parachain.image.includes('peaq') ? [`--parachain-id=${parachain.id}`] : [];
+      const port = parachainNode.port || 30333 + idx;
+
       const nodeConfig: DockerNode = {
         ports: [
           `${parachainNode.wsPort || 9944 + idx}:9944`,
           `${parachainNode.rpcPort || 9933 + idx}:9933`,
-          `${parachainNode.port || 30333 + idx}:30333`,
+          `${port}:${port}`,
         ],
         volumes: [`${name}:${volumePath}`],
         build: {
@@ -589,8 +595,10 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
           ...(parachainNode.flags || []),
           nodeIdx === 0
             ? `--node-key=${nodeKey}`
-            : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/30333/p2p/${nodeAddress}`,
-          '--listen-addr=/ip4/0.0.0.0/tcp/30333',
+            : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/40444/p2p/${nodeAddress}`,
+          `--listen-addr=/ip4/0.0.0.0/tcp/${port}`,
+          '--in-peers=128',
+          '--out-peers=128',
           ...(parchainIdArgs || []),
           '--',
           `--chain=/app/${config.relaychain.chain}.json`,

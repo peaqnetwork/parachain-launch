@@ -2,7 +2,7 @@
 
 # Parachin chains configurataion files
 FORKED_CONFIG_FILE=${FORKED_CONFIG_FILE:-"config.parachain.agung.forked.yml"}
-RPC_ENDPOINT=${RPC_ENDPOINT:-"https://rpcpc1-qa.agung.peaq.network"}
+RPC_ENDPOINT=${RPC_ENDPOINT:-"https://wss-async.agung.peaq.network"}
 DOCKER_COMPOSE_FOLDER=${DOCKER_COMPOSE_FOLDER:-"yoyo"}
 FORK_FOLDER=${FORK_FOLDER:="path-not-exist"}
 RELAY_CHAIN_CONFIG_FILE=${RELAY_CHAIN_CONFIG_FILE:-"rococo-local.json"}

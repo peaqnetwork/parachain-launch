@@ -1,7 +1,7 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.8.0 # the docker image to use
-  chain: rococo-local # the chain to use
+  image: parity/polkadot:v1.13.0
+  chain: westend-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
@@ -10,32 +10,37 @@ relaychain:
         async_backing_params:
           max_candidate_depth: 3
           allowed_ancestry_len: 2
-        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
     - --no-hardware-benchmarks
     - --insecure-validator-i-know-what-i-do
-    # - --unsafe-force-node-key-generation
+    - --unsafe-force-node-key-generation
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
-      wsPort: 9944 # default ws port number is `9944 + global_node_index`
-      rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
-      port: 30333 # default libp2p port number is `30333 + global_node_index`
+      wsPort: 10044 # default ws port number is `9944 + global_node_index`
+      rpcPort: 10033 # default rpc port number is `9933 + global_node_index`
+      port: 40333 # default libp2p port number is `30333 + global_node_index`
     - name: bob
+      wsPort: 10045
+      rpcPort: 10034
+      port: 40334
     - name: charlie
+      wsPort: 10046
+      rpcPort: 10035
+      port: 40335
 
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-v0.0.103
+- image: peaq/parachain:peaq-v0.0.104
   chain: # this could be a string like `dev` or a config object
     base: peaq-local # the chain to use
     chainType: Development
     collators: # override collators
       - ferdie
-      # - dave
+      - dave
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -59,19 +64,18 @@ parachains:
     RUST_LOG: sc_basic_authorship=trace,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    - wsPort: 10044
-      rpcPort: 10033
-      port: 40336
+    - wsPort: 9944
+      rpcPort: 9933
+      port: 30336
       flags: # additional CLI flags for this node
         - --ferdie
-    # - wsPort: 10045
-    #   rpcPort: 10034
-    #   port: 40337
-    #   flags:
-    #     - --dave
+    - wsPort: 9945
+      rpcPort: 9934
+      port: 30337
+      flags:
+        - --dave
 # Config for xcm parachain
-# TODO We should use 103 because 102 didn't support the XCM remote exeuction
-- image: peaq/parachain:peaq-v0.0.103
+- image: peaq/parachain:peaq-v0.0.104
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development
@@ -110,19 +114,3 @@ parachains:
         - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
         - --name=relaychain-ferdie
-    # - name: eve
-    #   wsPort: 10045
-    #   rpcPort: 10034
-    #   port: 40337
-    #   flags: # additional CLI flags for this node
-    #     - --eve
-    #   relaychainFlags: # additional CLI flags for relaychain part
-    #     - --name=relaychain-eve
-    # - name: dave
-    #   wsPort: 10046
-    #   rpcPort: 10035
-    #   port: 40338
-    #   flags: # additional CLI flags for this node
-    #     - --dave
-    #   relaychainFlags: # additional CLI flags for relaychain part
-    #     - --name=relaychain-dave

@@ -60,12 +60,10 @@ parachains:
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 10044
-      rpcPort: 10033
       port: 40336
       flags: # additional CLI flags for this node
         - --ferdie
     # - wsPort: 10045
-    #   rpcPort: 10034
     #   port: 40337
     #   flags:
     #     - --dave
@@ -103,25 +101,8 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
-      rpcPort: 10133
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie
       relaychainFlags: # additional CLI flags for relaychain part
         - --name=relaychain-ferdie
-    # - name: eve
-    #   wsPort: 10045
-    #   rpcPort: 10034
-    #   port: 40337
-    #   flags: # additional CLI flags for this node
-    #     - --eve
-    #   relaychainFlags: # additional CLI flags for relaychain part
-    #     - --name=relaychain-eve
-    # - name: dave
-    #   wsPort: 10046
-    #   rpcPort: 10035
-    #   port: 40338
-    #   flags: # additional CLI flags for this node
-    #     - --dave
-    #   relaychainFlags: # additional CLI flags for relaychain part
-    #     - --name=relaychain-dave

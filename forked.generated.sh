@@ -6,6 +6,7 @@ RPC_ENDPOINT=${RPC_ENDPOINT:-"https://wss-async.agung.peaq.network"}
 DOCKER_COMPOSE_FOLDER=${DOCKER_COMPOSE_FOLDER:-"yoyo"}
 FORK_FOLDER=${FORK_FOLDER:="path-not-exist"}
 RELAY_CHAIN_CONFIG_FILE=${RELAY_CHAIN_CONFIG_FILE:-"rococo-local.json"}
+OVERRIDE_STORAGE_PATH=${OVERRIDE_STORAGE_PATH:-""}
 
 extract_parachain_spec() {
   local input_file="$1"
@@ -65,6 +66,7 @@ cp ${DOCKER_COMPOSE_FOLDER}/$now_parachain_file_name $FORK_FOLDER/parachain.plai
  env ALICE=1 \
  SOURCE_PATH=${FORK_FOLDER} \
  RPC_ENDPOINT=${RPC_ENDPOINT}\
+ OVERRIDE_STORAGE_PATH=${OVERRIDE_STORAGE_PATH} \
  sh forked.generated.sh; \
 )
 

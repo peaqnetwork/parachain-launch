@@ -65,12 +65,10 @@ parachains:
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 9944
-      rpcPort: 9933
       port: 30336
       flags: # additional CLI flags for this node
         - --ferdie
     - wsPort: 9945
-      rpcPort: 9934
       port: 30337
       flags:
         - --dave
@@ -108,7 +106,6 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
-      rpcPort: 10133
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie

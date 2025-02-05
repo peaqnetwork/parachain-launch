@@ -69,40 +69,32 @@ parachains:
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 9944
-      rpcPort: 9933
       port: 30336
       flags: # additional CLI flags for this node
         - --alice
     - wsPort: 9945
-      rpcPort: 9934
       port: 30337
       flags:
         - --bob
     - wsPort: 9946
-      rpcPort: 9935
       port: 30338
       flags:
         - --charlie
     - wsPort: 9947
-      rpcPort: 9936
       port: 30339
       flags:
         - --dave
     - wsPort: 9948
-      rpcPort: 9937
       port: 30340
       flags:
         - --eve
     - wsPort: 9949
-      rpcPort: 9938
       port: 30341
       flags:
         - --ferdie
     - wsPort: 9950
-      rpcPort: 9939
       port: 30342
     - wsPort: 9951
-      rpcPort: 9940
       port: 30343
 # Config for xcm parachain
 - image: peaq/parachain:peaq-dev-v0.0.103
@@ -138,7 +130,6 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
-      rpcPort: 10133
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie

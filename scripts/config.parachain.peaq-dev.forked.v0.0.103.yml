@@ -59,16 +59,14 @@ parachains:
     RUST_LOG: sc_basic_authorship=trace,xcm=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-    # First node is the full node only, won't generate the blocks
-    - name: peaq-full-node
-      wsPort: 10044
+    - wsPort: 10044
       port: 40336
-    # Second node is collators; however, the second node might not have ability to generate the blocks
-    - name: peaq-collator
-      wsPort: 10045
-      port: 40337
       flags: # additional CLI flags for this node
         - --ferdie
+    # - wsPort: 10045
+    #   port: 40337
+    #   flags:
+    #     - --dave
 # Config for xcm parachain
 - image: peaq_para_node:latest
   chain: # this could be a string like `dev` or a config object
@@ -103,7 +101,6 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
-      rpcPort: 10133
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie
@@ -111,7 +108,6 @@ parachains:
         - --name=relaychain-ferdie
     # - name: eve
     #   wsPort: 10045
-    #   rpcPort: 10034
     #   port: 40337
     #   flags: # additional CLI flags for this node
     #     - --eve
@@ -119,7 +115,6 @@ parachains:
     #     - --name=relaychain-eve
     # - name: dave
     #   wsPort: 10046
-    #   rpcPort: 10035
     #   port: 40338
     #   flags: # additional CLI flags for this node
     #     - --dave

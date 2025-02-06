@@ -131,3 +131,7 @@ DOCKER_COMPOSE_FOLDER="yoyo" \
 FORK_FOLDER="/home/peaq/fork-test/fork-binary/krest-v0.0.3" \
 sh -e -x forked.generated.sh
 ```
+6. ust remember you can add `OVERRIDE_STORAGE_PATH` to shorten the fetching data time in the `scripts/forked-*.sh`
+The storage file is store under fork-off-substrate/data/storage.json after the script is run.
+However, just remember to copy to somewhere else, otherwise, it'll be deleted when reruning the script.
+For example: `OVERRIDE_STORAGE_PATH="/home/jaypan/Work/peaq/parachain-launch/storage.json" \`

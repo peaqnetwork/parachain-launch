@@ -34,17 +34,13 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-dev-v0.0.104
+- image: peaq/parachain:peaq-dev-v0.0.105
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development
     collators: # override collators
-      - alice
-      - bob
-      - charlie
-      - dave
-      - eve
       - ferdie
+      - dave
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -71,33 +67,13 @@ parachains:
     - wsPort: 9944
       port: 30336
       flags: # additional CLI flags for this node
-        - --alice
+        - --ferdie
     - wsPort: 9945
       port: 30337
       flags:
-        - --bob
-    - wsPort: 9946
-      port: 30338
-      flags:
-        - --charlie
-    - wsPort: 9947
-      port: 30339
-      flags:
         - --dave
-    - wsPort: 9948
-      port: 30340
-      flags:
-        - --eve
-    - wsPort: 9949
-      port: 30341
-      flags:
-        - --ferdie
-    - wsPort: 9950
-      port: 30342
-    - wsPort: 9951
-      port: 30343
 # Config for xcm parachain
-- image: peaq/parachain:peaq-dev-v0.0.104
+- image: peaq/parachain:peaq-dev-v0.0.105
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

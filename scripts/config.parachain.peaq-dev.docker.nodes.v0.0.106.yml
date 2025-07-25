@@ -130,6 +130,7 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
+      rpcPort: 10233
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie

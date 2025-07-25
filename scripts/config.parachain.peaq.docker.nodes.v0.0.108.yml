@@ -1,7 +1,7 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.8.0 # the docker image to use
-  chain: rococo-local # the chain to use
+  image: parity/polkadot:v1.13.0
+  chain: westend-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
       config:
@@ -10,14 +10,13 @@ relaychain:
         async_backing_params:
           max_candidate_depth: 3
           allowed_ancestry_len: 2
-        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
     - --no-hardware-benchmarks
     - --insecure-validator-i-know-what-i-do
-    # - --unsafe-force-node-key-generation
+    - --unsafe-force-node-key-generation
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 10044 # default ws port number is `9944 + global_node_index`
@@ -67,44 +66,33 @@ parachains:
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 9944
-      rpcPort: 9933
       port: 30336
       flags: # additional CLI flags for this node
         - --alice
     - wsPort: 9945
-      rpcPort: 9934
       port: 30337
       flags:
         - --bob
     - wsPort: 9946
-      rpcPort: 9935
       port: 30338
       flags:
         - --charlie
     - wsPort: 9947
-      rpcPort: 9936
       port: 30339
       flags:
         - --dave
-    - wsPort: 9948
-      rpcPort: 9937
-      port: 30340
-      flags:
-        - --eve
-    - wsPort: 9949
-      rpcPort: 9938
-      port: 30341
-      flags:
-        - --ferdie
-    - wsPort: 9950
-      rpcPort: 9939
-      port: 30342
-    - wsPort: 9951
-      rpcPort: 9940
-      port: 30343
-    - wsPort: 9952
-      rpcPort: 9941
-      port: 30344
+    # - wsPort: 9948
+    #   port: 30340
+    #   flags:
+    #     - --eve
+    # - wsPort: 9949
+    #   port: 30341
+    #   flags:
+    #     - --ferdie
+    # - wsPort: 9950
+    #   port: 30342
+    # - wsPort: 9951
+    #   port: 30343
 # Config for xcm parachain
 - image: peaq/parachain:peaq-v0.0.108
   chain: # this could be a string like `dev` or a config object
@@ -139,6 +127,7 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
+      rpcPort: 10233
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie

@@ -93,7 +93,7 @@ parachains:
     #   relaychainFlags: # additional CLI flags for relaychain part
     #     - --name=relaychain-dave
 # Config for xcm parachain
-- image: peaq/parachain:peaq-dev-v0.0.106
+- image: peaq/parachain:peaq-v0.0.109
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

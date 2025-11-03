@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:stable2503-4
+  image: parity/polkadot:v1.13.0
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -8,12 +8,8 @@ relaychain:
         validation_upgrade_cooldown: 10
         validation_upgrade_delay: 10
         async_backing_params:
-          max_candidate_depth: 6
+          max_candidate_depth: 3
           allowed_ancestry_len: 2
-        scheduler_params:
-          max_validators_per_core: 1
-          num_cores: 5
-          lookahead: 3
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
@@ -26,8 +22,6 @@ relaychain:
       wsPort: 9944 # default ws port number is `9944 + global_node_index`
       rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
       port: 30333 # default libp2p port number is `30333 + global_node_index`
-      flags: # additional CLI flags for this node
-        - --force-authoring
     - name: bob
     - name: charlie
     - name: dave
@@ -93,7 +87,7 @@ parachains:
     #   relaychainFlags: # additional CLI flags for relaychain part
     #     - --name=relaychain-dave
 # Config for xcm parachain
-- image: peaq/parachain:peaq-v0.0.109
+- image: peaq/parachain:peaq-v0.0.110
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

@@ -24,9 +24,6 @@ relaychain:
       port: 30333 # default libp2p port number is `30333 + global_node_index`
     - name: bob
     - name: charlie
-    - name: dave
-    - name: eve
-    - name: ferdie
 
 # Parachain Configuration
 parachains:

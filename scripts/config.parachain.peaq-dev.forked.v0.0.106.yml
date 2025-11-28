@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:stable2503-4
+  image: parity/polkadot:v1.13.0
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -58,7 +58,7 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=trace,xcm=trace,cumulus-pov-recovery=trace,cumulus-pallet-aura-ext=trace,cumulus-pallet-parachain-system=trace,cumulus-primitives-aura=trace,evm=trace
+    RUST_LOG: sc_basic_authorship=debug,txpool=debug,basic-authorship=debug,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=trace,xcm=trace,cumulus-pov-recovery=trace,cumulus-pallet-aura-ext=trace,cumulus-pallet-parachain-system=trace,cumulus-primitives-aura=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 10044

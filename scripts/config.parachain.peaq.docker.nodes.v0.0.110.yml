@@ -40,8 +40,6 @@ parachains:
       - bob
       - charlie
       - dave
-      - eve
-      - ferdie
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:

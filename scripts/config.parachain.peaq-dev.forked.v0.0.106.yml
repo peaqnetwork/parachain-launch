@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v1.8.0 # the docker image to use
+  image: parity/polkadot:v1.13.0
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -10,14 +10,13 @@ relaychain:
         async_backing_params:
           max_candidate_depth: 3
           allowed_ancestry_len: 2
-        scheduling_lookahead: 2
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace,xcm=trace
   flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
     - --no-hardware-benchmarks
     - --insecure-validator-i-know-what-i-do
-    # - --unsafe-force-node-key-generation
+    - --unsafe-force-node-key-generation
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
       wsPort: 9944 # default ws port number is `9944 + global_node_index`
@@ -25,6 +24,9 @@ relaychain:
       port: 30333 # default libp2p port number is `30333 + global_node_index`
     - name: bob
     - name: charlie
+    - name: dave
+    - name: eve
+    - name: ferdie
 
 # Parachain Configuration
 parachains:
@@ -56,7 +58,7 @@ parachains:
   relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
   env: # environment variables for this parachain nodes
-    RUST_LOG: sc_basic_authorship=trace,xcm=trace
+    RUST_LOG: sc_basic_authorship=debug,txpool=debug,basic-authorship=debug,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=trace,xcm=trace,cumulus-pov-recovery=trace,cumulus-pallet-aura-ext=trace,cumulus-pallet-parachain-system=trace,cumulus-primitives-aura=trace
   volumePath: /chain-data # The path to mount volume and base path, default to /data
   nodes: # nodes config
     - wsPort: 10044
@@ -68,7 +70,7 @@ parachains:
     #   flags:
     #     - --dave
 # Config for xcm parachain
-- image: peaq_para_node:latest
+- image: peaq/parachain:peaq-dev-v0.0.106
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

@@ -30,9 +30,6 @@ relaychain:
         - --force-authoring
     - name: bob
     - name: charlie
-    - name: dave
-    - name: eve
-    - name: ferdie
 
 # Parachain Configuration
 parachains:

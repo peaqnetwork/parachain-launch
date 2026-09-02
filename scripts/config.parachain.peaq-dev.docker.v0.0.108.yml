@@ -34,7 +34,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-dev-v0.0.106
+- image: peaq/parachain:peaq-dev-v0.0.108
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development
@@ -73,7 +73,7 @@ parachains:
       flags:
         - --dave
 # Config for xcm parachain
-- image: peaq/parachain:peaq-dev-v0.0.106
+- image: peaq/parachain:peaq-dev-v0.0.108
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

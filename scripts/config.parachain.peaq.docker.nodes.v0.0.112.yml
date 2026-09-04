@@ -73,6 +73,11 @@ parachains:
       port: 30337
       flags:
         - --bob # not a candidate; hosts mnemonic0's rotated session keys after setup
+        # parachain-launch only emits --node-key for each parachain's first node (it needs a
+        # deterministic bootnode address). Newer polkadot-sdk no longer generates the libp2p
+        # key on demand for non-dev chains, so every node after the first exits immediately
+        # with NetworkKeyNotFound unless it is given one here.
+        - --node-key=2db08e5091f8581be3561dcf47efa2eae6393acb0ec0bfa4b6fc3ae695adc411
     # Reduced to 2 collators (alice+bob) to avoid OOM on the 30Gi/0-swap host:
     # 8 nodes booting together spiked memory and the kernel OOM-killed a collator.
     # - wsPort: 9946

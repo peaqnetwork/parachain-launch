@@ -31,7 +31,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-v0.0.112
+- image: peaq/parachain:peaq-v0.0.113
   chain: # this could be a string like `dev` or a config object
     base: peaq-local # the chain to use
     chainType: Development
@@ -101,7 +101,7 @@ parachains:
     # - wsPort: 9951
     #   port: 30343
 # Config for xcm parachain
-- image: peaq/parachain:peaq-v0.0.112
+- image: peaq/parachain:peaq-v0.0.113
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development

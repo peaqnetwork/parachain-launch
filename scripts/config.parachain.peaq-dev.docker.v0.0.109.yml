@@ -34,17 +34,13 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: peaq/parachain:peaq-dev-v0.0.108
+- image: peaq/parachain:peaq-dev-v0.0.109
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development
     collators: # override collators
-      - alice
-      - bob
-      - charlie
-      - dave
-      - eve
       - ferdie
+      - dave
     sudo: alice # override sudo key to //Alice
     runtimeGenesisConfig: # additonal genesis override
       balances:
@@ -71,41 +67,13 @@ parachains:
     - wsPort: 9944
       port: 30336
       flags: # additional CLI flags for this node
-        - --alice
+        - --ferdie
     - wsPort: 9945
       port: 30337
       flags:
-        - --bob
-        # parachain-launch only emits --node-key for each parachain's first node (it needs a
-        # deterministic bootnode address). Newer polkadot-sdk no longer generates the libp2p
-        # key on demand for non-dev chains, so every node after the first exits immediately
-        # with NetworkKeyNotFound unless it is given one here.
-        - --node-key=4a13ba2bda8ff7b87f126230b11d7c01e92c027e92dc179682eb5c71f734c1b6
-    # Reduced to 2 collators (alice+bob), matching the peaq config: 8 nodes booting
-    # together spiked memory and the kernel OOM-killed a collator. Re-enabling any of
-    # these needs its own --node-key for the same reason as above.
-    # - wsPort: 9946
-    #   port: 30338
-    #   flags:
-    #     - --charlie
-    # - wsPort: 9947
-    #   port: 30339
-    #   flags:
-    #     - --dave
-    # - wsPort: 9948
-    #   port: 30340
-    #   flags:
-    #     - --eve
-    # - wsPort: 9949
-    #   port: 30341
-    #   flags:
-    #     - --ferdie
-    # - wsPort: 9950
-    #   port: 30342
-    # - wsPort: 9951
-    #   port: 30343
+        - --dave
 # Config for xcm parachain
-- image: peaq/parachain:peaq-dev-v0.0.108
+- image: peaq/parachain:peaq-dev-v0.0.109
   chain: # this could be a string like `dev` or a config object
     base: dev-local # the chain to use
     chainType: Development
@@ -138,7 +106,6 @@ parachains:
   nodes: # nodes config
     - name: ferdie
       wsPort: 10144
-      rpcPort: 10233
       port: 30533
       flags: # additional CLI flags for this node
         - --ferdie
